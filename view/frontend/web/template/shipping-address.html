@@ -1,0 +1,23 @@
+<li id="shipping-address" class="checkout-shipping-address" data-bind="fadeVisible: visible()">
+    <div class="step-title" data-bind="i18n: 'Shipping Address'" data-role="title"></div>
+    <div id="checkout-step-shipping"
+         class="step-content"
+         data-role="content">
+
+        <!-- ko template: 'GoMage_SuperLightCheckout/shipping-address/list' --><!-- /ko -->
+
+        <!-- ko foreach: getRegion('before-form') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+
+        <!-- ko template: 'Magento_Checkout/shipping-address/form' --><!-- /ko -->
+    </div>
+
+    <div class="actions-toolbar" id="shipping-address-buttons-container">
+        <div class="primary">
+            <button data-role="opc-continue" type="button" class="button action continue primary" data-bind="click: setShippingInformation">
+                <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
+            </button>
+        </div>
+    </div>
+</li>

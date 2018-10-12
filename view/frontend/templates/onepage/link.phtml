@@ -1,0 +1,17 @@
+<?php
+
+// @codingStandardsIgnoreFile
+/** @var $block \GoMage\SuperLightCheckout\Block\Onepage\Link */
+?>
+<button type="button"
+        data-role="proceed-to-checkout"
+        title="<?php /* @escapeNotVerified */ echo __('Checkout') ?>"
+        data-mage-init='{"GoMage_SuperLightCheckout/js/popup":{}}'
+        class="action popup-open primary checkout<?php echo ($block->isDisabled()) ? ' disabled' : ''; ?>"
+        <?php if ($block->isDisabled()): ?>disabled="disabled"<?php endif; ?>>
+    <span><?php /* @escapeNotVerified */ echo __('Checkout') ?></span>
+</button>
+
+<div id="checkout-popup" style="display: none;">
+    <?php echo $block->getChildHtml('cart.checkout.root') ?>
+</div>

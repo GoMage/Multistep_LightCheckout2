@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="gomage" translate="label" sortOrder="250">
+            <label>GoMage</label>
+        </tab>
+        <section id="gomage_super_light_checkout_configuration" translate="label" type="text" sortOrder="200"
+                 showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Super Light Checkout</label>
+            <tab>gomage</tab>
+            <resource>GoMage_SuperLightCheckout::super_light_checkout</resource>
+            <group id="general" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General</label>
+                <field id="is_enabled" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Enable GoMage Super Light Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="default_shipping_method" translate="label" type="select" sortOrder="40"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default Shipping Method</label>
+                    <source_model>GoMage\SuperLightCheckout\Model\Config\Source\ShippingMethods</source_model>
+                </field>
+                <field id="default_payment_method" translate="label" type="select" sortOrder="60"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default Payment Method</label>
+                    <source_model>GoMage\SuperLightCheckout\Model\Config\Source\PaymentMethods</source_model>
+                </field>
+                <field id="page_content" translate="label" type="textarea" sortOrder="80"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Page Content</label>
+                </field>
+                <field id="enable_different_shipping_address" translate="label" type="select" sortOrder="100"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Different Shipping Address</label>
+                    <source_model>GoMage\SuperLightCheckout\Model\Config\Source\EnableCheckboxOptions</source_model>
+                </field>
+                <field id="allow_to_change_qty" translate="label" type="select" sortOrder="120"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Allow to change Qty</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow_to_remove_item_from_checkout" translate="label" type="select" sortOrder="140"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Allow to Remove Item from Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_discount_codes" translate="label" type="select" sortOrder="160"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Discount Codes</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_order_summary_on_success_page" translate="label" type="select" sortOrder="180"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Show Order Summary on Success Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
