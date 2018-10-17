@@ -25,9 +25,10 @@
                                         <item name="displayArea" xsi:type="string">progressBar</item>
                                         <item name="config" xsi:type="array">
                                             <item name="deps" xsi:type="array">
-                                                <item name="0" xsi:type="string">checkout.steps.shipping-step.shippingAddress</item>
-                                                <item name="1" xsi:type="string">checkout.steps.billing-step.billingAddress</item>
-                                                <item name="1" xsi:type="string">checkout.steps.shipping-method-step</item>
+                                                <item name="0" xsi:type="string">checkout.steps.shipping-address-step.shippingAddress</item>
+                                                <item name="1" xsi:type="string">checkout.steps.billing-address-step.billingAddress</item>
+                                                <item name="2" xsi:type="string">checkout.steps.shipping-method-step.shippingMethod</item>
+                                                <item name="3" xsi:type="string">checkout.steps.payment-step.payment</item>
                                             </item>
                                         </item>
                                     </item>
@@ -35,7 +36,7 @@
                                         <item name="component" xsi:type="string">uiComponent</item>
                                         <item name="displayArea" xsi:type="string">steps</item>
                                         <item name="children" xsi:type="array">
-                                            <item name="shipping-step" xsi:type="array">
+                                            <item name="shipping-address-step" xsi:type="array">
                                                 <item name="component" xsi:type="string">uiComponent</item>
                                                 <item name="sortOrder" xsi:type="string">1</item>
                                                 <item name="children" xsi:type="array">
@@ -52,14 +53,37 @@
                                                     <item name="shippingAddress" xsi:type="array">
                                                         <item name="config" xsi:type="array">
                                                             <item name="deps" xsi:type="array">
-                                                                <item name="0" xsi:type="string">checkout.steps.shipping-step.step-config</item>
+                                                                <item name="0" xsi:type="string">checkout.steps.shipping-address-step.step-config</item>
                                                                 <item name="1" xsi:type="string">checkoutProvider</item>
                                                             </item>
                                                         </item>
-                                                        <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/shipping</item>
+                                                        <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/shipping-address</item>
                                                         <item name="provider" xsi:type="string">checkoutProvider</item>
                                                         <item name="sortOrder" xsi:type="string">1</item>
                                                         <item name="children" xsi:type="array">
+                                                            <item name="customer-email" xsi:type="array">
+                                                                <item name="component" xsi:type="string">Magento_Checkout/js/view/form/element/email</item>
+                                                                <item name="displayArea" xsi:type="string">customer-email</item>
+                                                                <item name="tooltip" xsi:type="array">
+                                                                    <item name="description" xsi:type="string" translate="true">We'll send your order confirmation here.</item>
+                                                                </item>
+                                                                <item name="children" xsi:type="array">
+                                                                    <item name="before-login-form" xsi:type="array">
+                                                                        <item name="component" xsi:type="string">uiComponent</item>
+                                                                        <item name="displayArea" xsi:type="string">before-login-form</item>
+                                                                        <item name="children" xsi:type="array">
+                                                                            <!-- before login form fields -->
+                                                                        </item>
+                                                                    </item>
+                                                                    <item name="additional-login-form-fields" xsi:type="array">
+                                                                        <item name="component" xsi:type="string">uiComponent</item>
+                                                                        <item name="displayArea" xsi:type="string">additional-login-form-fields</item>
+                                                                        <item name="children" xsi:type="array">
+                                                                            <!-- additional login form fields -->
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
                                                             <item name="before-form" xsi:type="array">
                                                                 <item name="component" xsi:type="string">uiComponent</item>
                                                                 <item name="displayArea" xsi:type="string">before-form</item>
@@ -148,7 +172,7 @@
                                                     </item>
                                                 </item>
                                             </item>
-                                            <item name="billing-step" xsi:type="array">
+                                            <item name="billing-address-step" xsi:type="array">
                                                 <item name="component" xsi:type="string">uiComponent</item>
                                                 <item name="sortOrder" xsi:type="string">10</item>
                                                 <item name="children" xsi:type="array">
@@ -240,6 +264,79 @@
                                                         <item name="template" xsi:type="string">GoMage_SuperLightCheckout/shipping-methods</item>
                                                         <item name="provider" xsi:type="string">checkoutProvider</item>
                                                         <item name="sortOrder" xsi:type="string">40</item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                            <item name="payment-step" xsi:type="array">
+                                                <item name="component" xsi:type="string">uiComponent</item>
+                                                <item name="sortOrder" xsi:type="string">40</item>
+                                                <item name="children" xsi:type="array">
+                                                    <item name="payment" xsi:type="array">
+                                                        <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/payment</item>
+                                                        <item name="config" xsi:type="array">
+                                                            <item name="title" xsi:type="string" translate="true">Payment</item>
+                                                        </item>
+                                                        <item name="children" xsi:type="array">
+                                                            <item name="renders" xsi:type="array">
+                                                                <item name="component" xsi:type="string">uiComponent</item>
+                                                                <item name="children" xsi:type="array">
+                                                                    <!-- merge payment method renders here -->
+                                                                </item>
+                                                            </item>
+                                                            <item name="additional-payment-validators" xsi:type="array">
+                                                                <item name="component" xsi:type="string">uiComponent</item>
+                                                                <item name="children" xsi:type="array">
+                                                                    <!-- merge payment validators here -->
+                                                                    <item name="email-validator" xsi:type="array">
+                                                                        <item name="component" xsi:type="string">Magento_Checkout/js/view/payment/email-validator</item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                            <item name="beforeMethods" xsi:type="array">
+                                                                <item name="component" xsi:type="string">uiComponent</item>
+                                                                <item name="displayArea" xsi:type="string">beforeMethods</item>
+                                                                <item name="children" xsi:type="array">
+                                                                    <!-- merge additional data before payment methods here -->
+                                                                </item>
+                                                                <item name="validation" xsi:type="array">
+                                                                    <item name="validate-select" xsi:type="string">true</item>
+                                                                </item>
+                                                                <!-- Value of region_id field is filtered by the value of county_id attribute -->
+                                                                <item name="filterBy" xsi:type="array">
+                                                                    <item name="target" xsi:type="string">${ $.provider }:${ $.parentScope }.country_id</item>
+                                                                    <item name="field" xsi:type="string">country_id</item>
+                                                                </item>
+                                                            </item>
+                                                            <item name="payments-list" xsi:type="array">
+                                                                <item name="component" xsi:type="string">Magento_Checkout/js/view/payment/list</item>
+                                                                <item name="displayArea" xsi:type="string">payment-methods-list</item>
+                                                                <item name="config" xsi:type="array">
+                                                                    <item name="deps" xsi:type="array">
+                                                                        <item name="0" xsi:type="string">checkout.steps.payment-step.payment.renders</item>
+                                                                        <item name="1" xsi:type="string">checkout.steps.payment-step.payment.additional-payment-validators</item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="children" xsi:type="array">
+                                                                    <item name="before-place-order" xsi:type="array">
+                                                                        <item name="component" xsi:type="string">uiComponent</item>
+                                                                        <item name="displayArea" xsi:type="string">before-place-order</item>
+                                                                        <item name="dataScope" xsi:type="string">before-place-order</item>
+                                                                        <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                        <item name="config" xsi:type="array">
+                                                                            <item name="template" xsi:type="string">Magento_Checkout/payment/before-place-order</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                            <!-- merge your payment methods here -->
+                                                            <item name="afterMethods" xsi:type="array">
+                                                                <item name="component" xsi:type="string">uiComponent</item>
+                                                                <item name="displayArea" xsi:type="string">afterMethods</item>
+                                                                <item name="children" xsi:type="array">
+                                                                    <!-- merge additional data after payment methods here -->
+                                                                </item>
+                                                            </item>
+                                                        </item>
                                                     </item>
                                                 </item>
                                             </item>

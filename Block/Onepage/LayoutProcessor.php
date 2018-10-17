@@ -2,10 +2,11 @@
 
 namespace GoMage\SuperLightCheckout\Block\Onepage;
 
+use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\MergeComponentFromMagentoCheckout;
 use Magento\Checkout\Block\Checkout\AttributeMerger;
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
-use Magento\Checkout\Helper\Data;
-use Magento\Framework\App\ObjectManager;
+use Magento\Customer\Model\Options;
+use Magento\Shipping\Model\Config;
 use Magento\Store\Api\StoreResolverInterface;
 
 /**
@@ -21,22 +22,17 @@ class LayoutProcessor implements LayoutProcessorInterface
     /**
      * @var \Magento\Ui\Component\Form\AttributeMapper
      */
-    protected $attributeMapper;
+    private $attributeMapper;
 
     /**
      * @var AttributeMerger
      */
-    protected $merger;
+    private $merger;
 
     /**
-     * @var \Magento\Customer\Model\Options
+     * @var Options
      */
     private $options;
-
-    /**
-     * @var Data
-     */
-    private $checkoutDataHelper;
 
     /**
      * @var StoreResolverInterface
@@ -44,36 +40,40 @@ class LayoutProcessor implements LayoutProcessorInterface
     private $storeResolver;
 
     /**
-     * @var \Magento\Shipping\Model\Config
+     * @var Config
      */
     private $shippingConfig;
+
+    /**
+     * @var MergeComponentFromMagentoCheckout
+     */
+    private $mergeComponentFromMagentoCheckout;
 
     /**
      * @param \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
      * @param \Magento\Ui\Component\Form\AttributeMapper $attributeMapper
      * @param AttributeMerger $merger
+     * @param Config $shippingConfig
+     * @param StoreResolverInterface $storeResolver
+     * @param Options $options
+     * @param MergeComponentFromMagentoCheckout $mergeComponentFromMagentoCheckout
      */
     public function __construct(
         \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider,
         \Magento\Ui\Component\Form\AttributeMapper $attributeMapper,
-        AttributeMerger $merger
+        AttributeMerger $merger,
+        Config $shippingConfig,
+        StoreResolverInterface $storeResolver,
+        Options $options,
+        MergeComponentFromMagentoCheckout $mergeComponentFromMagentoCheckout
     ) {
         $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
         $this->attributeMapper = $attributeMapper;
         $this->merger = $merger;
-    }
-
-    /**
-     * @deprecated
-     * @return \Magento\Customer\Model\Options
-     */
-    private function getOptions()
-    {
-        if (!is_object($this->options)) {
-            $this->options = ObjectManager::getInstance()->get(\Magento\Customer\Model\Options::class);
-        }
-
-        return $this->options;
+        $this->shippingConfig = $shippingConfig;
+        $this->storeResolver = $storeResolver;
+        $this->options = $options;
+        $this->mergeComponentFromMagentoCheckout = $mergeComponentFromMagentoCheckout;
     }
 
     /**
@@ -146,31 +146,30 @@ class LayoutProcessor implements LayoutProcessorInterface
     public function process($jsLayout)
     {
         $attributesToConvert = [
-            'prefix' => [$this->getOptions(), 'getNamePrefixOptions'],
-            'suffix' => [$this->getOptions(), 'getNameSuffixOptions'],
+            'prefix' => [$this->options, 'getNamePrefixOptions'],
+            'suffix' => [$this->options, 'getNameSuffixOptions'],
         ];
 
         $elements = $this->getAddressAttributes();
         $elements = $this->convertElementsToSelect($elements, $attributesToConvert);
 
-        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']['children']
             ['step-config']['children']['shipping-rates-validation']['children']
         )) {
-            //todo
-            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']['children']
             ['step-config']['children']['shipping-rates-validation']['children'] =
                 $this->processShippingChildrenComponents(
-                    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+                    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']['children']
                     ['step-config']['children']['shipping-rates-validation']['children']
                 );
         }
 
-        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']
+        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-address-step']
             ['children']['billingAddress']['children']['billing-address-fieldset']['children']
         )) {
-            $fields = $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']
+            $fields = $jsLayout['components']['checkout']['children']['steps']['children']['billing-address-step']
             ['children']['billingAddress']['children']['billing-address-fieldset']['children'];
-            $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']
+            $jsLayout['components']['checkout']['children']['steps']['children']['billing-address-step']
             ['children']['billingAddress']['children']['billing-address-fieldset']['children'] = $this->merger->merge(
                 $elements,
                 'checkoutProvider',
@@ -179,12 +178,12 @@ class LayoutProcessor implements LayoutProcessorInterface
             );
         }
 
-        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
+        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']
             ['children']['shippingAddress']['children']['shipping-address-fieldset']['children']
         )) {
-            $fields = $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
+            $fields = $jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']
             ['children']['shippingAddress']['children']['shipping-address-fieldset']['children'];
-            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']
             ['children']['shippingAddress']['children']['shipping-address-fieldset']['children'] = $this->merger->merge(
                 $elements,
                 'checkoutProvider',
@@ -192,6 +191,8 @@ class LayoutProcessor implements LayoutProcessorInterface
                 $fields
             );
         }
+
+        $jsLayout = $this->mergeComponentFromMagentoCheckout->execute($jsLayout);
 
         return $jsLayout;
     }
@@ -205,8 +206,8 @@ class LayoutProcessor implements LayoutProcessorInterface
      */
     private function processShippingChildrenComponents($shippingRatesLayout)
     {
-        $activeCarriers = $this->getShippingConfig()->getActiveCarriers(
-            $this->getStoreResolver()->getCurrentStoreId()
+        $activeCarriers = $this->shippingConfig->getActiveCarriers(
+            $this->storeResolver->getCurrentStoreId()
         );
         foreach (array_keys($shippingRatesLayout) as $carrierName) {
             $carrierKey = str_replace('-rates-validation', '', $carrierName);
@@ -216,35 +217,5 @@ class LayoutProcessor implements LayoutProcessorInterface
         }
 
         return $shippingRatesLayout;
-    }
-
-    /**
-     * Get active carriers list.
-     *
-     * @return array
-     * @deprecated
-     */
-    private function getShippingConfig()
-    {
-        if (!$this->shippingConfig) {
-            $this->shippingConfig = ObjectManager::getInstance()->get(\Magento\Shipping\Model\Config::class);
-        }
-
-        return $this->shippingConfig;
-    }
-
-    /**
-     * Get store resolver.
-     *
-     * @return StoreResolverInterface
-     * @deprecated
-     */
-    private function getStoreResolver()
-    {
-        if (!$this->storeResolver) {
-            $this->storeResolver = ObjectManager::getInstance()->get(StoreResolverInterface::class);
-        }
-
-        return $this->storeResolver;
     }
 }

@@ -120,7 +120,14 @@ define(
              */
             validateShippingAddress: function () {
                 var shippingAddress,
-                    addressData;
+                    addressData,
+                    loginFormSelector = 'form[data-role=email-with-possible-login]',
+                    emailValidationResult = customer.isLoggedIn();
+
+                if (!customer.isLoggedIn()) {
+                    $(loginFormSelector).validation();
+                    emailValidationResult = Boolean($(loginFormSelector + ' input[name=username]').valid());
+                }
 
                 this.source.set('params.invalid', false);
                 this.source.trigger('shippingAddress.data.validate');
@@ -162,6 +169,12 @@ define(
                 addressData.saveInAddressBook = this.saveInAddressBook() ? 1 : 0;
 
                 selectShippingAddress(shippingAddress);
+
+                if (!emailValidationResult) {
+                    $(loginFormSelector + ' input[name=username]').focus();
+
+                    return false;
+                }
 
                 return true;
             },

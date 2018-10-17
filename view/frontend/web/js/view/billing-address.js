@@ -131,7 +131,7 @@ define(
              * Perform postponed binding for fieldset elements
              */
             initFields: function () {
-                var formPath = 'checkout.steps.billing-step.billingAddress.billing-address-fieldset',
+                var formPath = 'checkout.steps.billing-address-step.billingAddress.billing-address-fieldset',
                     self = this,
                     elements = shippingRatesValidationRules.getObservableFields();
 
@@ -253,7 +253,7 @@ define(
              * @inheritDoc
              */
             onAddressChange: function (address) {
-                if (address.customerAddressId !== null) {
+                if (address && address.customerAddressId !== null) {
                     this.isAddressNew(false);
                     address.country_id = address.countryId;
                     address.region_id = address.regionId;
@@ -290,7 +290,9 @@ define(
              * @inheritDoc
              */
             updateAddress: function () {
-                if (this.selectedAddress()
+                if (this.isAddressSameAsShipping()) {
+                    stepNavigator.next();
+                } else if (this.selectedAddress()
                     && this.selectedAddress() != this.addressOptions[this.addressOptions.length - 1]
                 ) {
                     selectBillingAddress(this.selectedAddress());

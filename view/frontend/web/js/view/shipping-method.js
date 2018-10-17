@@ -98,17 +98,20 @@ define(
              * @return {Boolean}
              */
             validateShippingMethod: function () {
+                var result = true;
                 if (!quote.shippingMethod()) {
                     this.errorValidationMessage($t('Please specify a shipping method.'));
 
-                    return false;
+                    result = false;
                 }
 
                 if (!quote.shippingMethod().method_code
                     || !quote.shippingMethod().carrier_code
                 ) {
-                    return false;
+                    result = false;
                 }
+
+                return result;
             },
 
             /**
@@ -132,7 +135,7 @@ define(
                 checkoutData.setSelectedShippingRate(shippingMethod.carrier_code + '_' + shippingMethod.method_code);
 
                 return true;
-            },
+            }
         });
     }
 );
