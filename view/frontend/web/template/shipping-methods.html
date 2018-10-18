@@ -27,7 +27,7 @@
                         <tbody>
 
                         <!--ko foreach: { data: rates(), as: 'method'}-->
-                        <tr class="row" data-bind="click: $parent.selectShippingMethod">
+                        <tr class="row" data-bind="click: $parent.selectShippingMethod, style: {cursor: 'pointer'}">
                             <td class="col col-method">
                                 <!-- ko ifnot: method.error_message -->
                                 <!-- ko if: $parent.rates().length == 1 -->
@@ -61,10 +61,10 @@
                             </td>
 
                             <td class="col col-method"
-                                    data-bind="text: method.method_title, attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></td>
+                                data-bind="text: method.method_title, attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></td>
 
                             <td class="col col-carrier"
-                                    data-bind="text: method.carrier_title, attr: {'id': 'label_carrier_' + method.method_code + '_' + method.carrier_code}"></td>
+                                data-bind="text: method.carrier_title, attr: {'id': 'label_carrier_' + method.method_code + '_' + method.carrier_code}"></td>
                         </tr>
 
                         <!-- ko if:  method.error_message -->

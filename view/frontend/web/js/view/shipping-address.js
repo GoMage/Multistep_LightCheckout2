@@ -161,6 +161,10 @@ define(
                     }
                 }
 
+                if (customer.isLoggedIn()) {
+                    this.saveInAddressBook(this.isAddressNew());
+                }
+
                 if (customer.isLoggedIn() && this.addressOptions.length === 1) {
                     this.saveInAddressBook(1);
                 }
