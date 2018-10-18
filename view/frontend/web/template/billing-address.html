@@ -17,6 +17,11 @@
     </fieldset>
 
     <div class="actions-toolbar" id="billing-address-buttons-container">
+        <div class="secondary left">
+            <a class="action previous-step" data-bind="click: returnToPreviousStep">
+                <span data-bind="i18n: 'Return to previous step'"></span>
+            </a>
+        </div>
         <div class="primary">
             <button data-role="opc-continue" type="button" class="button action continue primary" data-bind="click: updateAddress">
                 <span><!-- ko i18n: 'Next'--><!-- /ko --></span>

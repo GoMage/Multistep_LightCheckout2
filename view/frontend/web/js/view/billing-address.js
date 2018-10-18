@@ -408,6 +408,10 @@ define(
                         stepNavigator.next();
                     }
                 }
+            },
+
+            returnToPreviousStep: function () {
+                stepNavigator.prev();
             }
         });
     }

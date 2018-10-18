@@ -121,8 +121,21 @@ define(
                     }
                 });
                 if (steps().length > activeIndex + 1) {
-                    var code = steps()[activeIndex + 1].code;
                     steps()[activeIndex + 1].isVisible(true);
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
+                }
+            },
+
+            prev: function() {
+                var activeIndex = 0;
+                steps.sort(this.sortItems).forEach(function(element, index) {
+                    if (element.isVisible()) {
+                        element.isVisible(false);
+                        activeIndex = index;
+                    }
+                });
+                if (0 <= activeIndex - 1) {
+                    steps()[activeIndex - 1].isVisible(true);
                     document.body.scrollTop = document.documentElement.scrollTop = 0;
                 }
             }

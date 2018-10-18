@@ -1,0 +1,8 @@
+.left {
+    float:left;
+    margin-right: 1%;
+}
+
+.previous-step {
+    cursor: pointer;
+}

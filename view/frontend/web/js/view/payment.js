@@ -69,6 +69,10 @@ define(
                 }
 
                 return true;
+            },
+
+            returnToPreviousStep: function () {
+                stepNavigator.prev();
             }
         });
     }

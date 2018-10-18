@@ -135,6 +135,10 @@ define(
                 checkoutData.setSelectedShippingRate(shippingMethod.carrier_code + '_' + shippingMethod.method_code);
 
                 return true;
+            },
+
+            returnToPreviousStep: function () {
+                stepNavigator.prev();
             }
         });
     }

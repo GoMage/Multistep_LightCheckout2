@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="GoMage_SuperLightCheckout::css/style.css"/>
+    </head>
     <body>
         <referenceBlock name="checkout.cart.methods.onepage.bottom" class="GoMage\SuperLightCheckout\Block\Onepage\Link">
             <block class="GoMage\SuperLightCheckout\Block\Onepage" name="cart.checkout.root"
@@ -273,6 +276,7 @@
                                                 <item name="children" xsi:type="array">
                                                     <item name="payment" xsi:type="array">
                                                         <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/payment</item>
+                                                        <item name="template" xsi:type="string">GoMage_SuperLightCheckout/payment</item>
                                                         <item name="config" xsi:type="array">
                                                             <item name="title" xsi:type="string" translate="true">Payment</item>
                                                         </item>
