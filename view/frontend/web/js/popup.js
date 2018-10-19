@@ -1,9 +1,10 @@
 define(
     [
         'jquery',
+        'text!GoMage_SuperLightCheckout/template/modal/modal-popup.html',
         'Magento_Ui/js/modal/modal'
     ],
-    function($) {
+    function($, popupTpl) {
         "use strict";
 
         $.widget('GoMage.Popup', {
@@ -22,9 +23,10 @@ define(
                     type: 'popup',
                     responsive: true,
                     clickableOverlay: false,
-                    title: $.mage.__('PopUp'),
-                    modalClass: 'popup',
-                    buttons: []
+                    title: $.mage.__('PopUp 222'),
+                    modalClass: 'popup-checkout',
+                    buttons: [],
+                    popupTpl: popupTpl
                 };
             },
             _bind: function(){

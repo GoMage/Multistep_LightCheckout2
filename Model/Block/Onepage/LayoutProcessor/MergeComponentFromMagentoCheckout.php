@@ -101,8 +101,50 @@ class MergeComponentFromMagentoCheckout
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-method-step']
         ['children']['shippingMethod']['children']['price']
             = $this->getPriceFromShippingAddressToShippingMethod();
+
+        $jsLayout['components']['checkout']['children']['sidebar']['children']['summary']
+        ['children']['totals']['children']
+            = $this->mergeSidebarSummaryChildrenElement(
+            $jsLayout['components']['checkout']['children']['sidebar']['children']['summary']
+            ['children']['totals']['children'],
+            'totals'
+        );
+
+        $jsLayout['components']['checkout']['children']['sidebar']['children']['summary']
+        ['children']['itemsBefore']['children']
+            = $this->mergeSidebarSummaryChildrenElement(
+            $jsLayout['components']['checkout']['children']['sidebar']['children']['summary']
+            ['children']['itemsBefore']['children'],
+            'itemsBefore'
+        );
+
+        $jsLayout['components']['checkout']['children']['sidebar']['children']['summary']
+        ['children']['itemsAfter']['children']
+            = $this->mergeSidebarSummaryChildrenElement(
+            $jsLayout['components']['checkout']['children']['sidebar']['children']['summary']
+            ['children']['itemsAfter']['children'],
+            'itemsAfter'
+        );
         
         return $jsLayout;
+    }
+
+    /**
+     * @param array $layout
+     * @param string $elementName
+     *
+     * @return array
+     */
+    private function mergeSidebarSummaryChildrenElement($layout, $elementName)
+    {
+        $path = '//referenceBlock[@name="checkout.root"]/arguments/argument[@name="jsLayout"]'
+            . '/item[@name="components"]/item[@name="checkout"]/item[@name="children"]'
+            . '/item[@name="sidebar"]/item[@name="children"]/item[@name="summary"]'
+            . '/item[@name="children"]/item[@name="' . $elementName . '"]/item[@name="children"]';
+
+        $args = $this->fetchArgs->execute('checkout_index_index', $path);
+
+        return array_merge($args, $layout);
     }
 
     /**

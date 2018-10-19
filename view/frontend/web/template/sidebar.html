@@ -1,0 +1,17 @@
+<div id="modal-header">
+    <h1 class="modal-title left" data-role="title">Some Popup Title</h1>
+    <button type="button" class="action-dropdown right" data-bind="click: summaryToggle" id="show-summary">
+        <span data-bind="text: orderTotal()"></span>
+    </button>
+</div>
+<div id="opc-sidebar" data-bind="fadeVisible: visible()">
+    <!-- ko foreach: getRegion('summary') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+
+    <div class="opc-block-shipping-information">
+        <!-- ko foreach: getRegion('shipping-information') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+    </div>
+</div>

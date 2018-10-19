@@ -131,8 +131,10 @@ define(
              * @return {Boolean}
              */
             selectShippingMethod: function (shippingMethod) {
-                selectShippingMethodAction(shippingMethod);
-                checkoutData.setSelectedShippingRate(shippingMethod.carrier_code + '_' + shippingMethod.method_code);
+                selectShippingMethodAction(shippingMethod).done(
+                    function () {
+                        checkoutData.setSelectedShippingRate(shippingMethod.carrier_code + '_' + shippingMethod.method_code);
+                    });
 
                 return true;
             },
