@@ -19,6 +19,7 @@ define(
         'Magento_Ui/js/modal/modal',
         'Magento_Checkout/js/model/checkout-data-resolver',
         'Magento_Checkout/js/checkout-data',
+        'Magento_Customer/js/customer-data',
         'uiRegistry',
         'mage/translate'
     ],
@@ -31,23 +32,25 @@ define(
         addressList,
         addressConverter,
         quote,
-              createShippingAddress,
-              selectShippingAddress,
-              shippingRatesValidator,
-              shippingService,
-              selectShippingMethodAction,
-              rateRegistry,
-              setShippingInformationAction,
-              stepNavigator,
-              modal,
-              checkoutDataResolver,
-              checkoutData,
-              registry,
-              $t
+        createShippingAddress,
+        selectShippingAddress,
+        shippingRatesValidator,
+        shippingService,
+        selectShippingMethodAction,
+        rateRegistry,
+        setShippingInformationAction,
+        stepNavigator,
+        modal,
+        checkoutDataResolver,
+        checkoutData,
+        customerData,
+        registry,
+        $t
     ) {
         'use strict';
 
-        var newAddressOption = {
+        var countryData = customerData.get('directory-data'),
+            newAddressOption = {
                 /**
                  * Get new address label
                  * @returns {String}
@@ -68,6 +71,7 @@ define(
                 template: 'GoMage_SuperLightCheckout/shipping-address'
             },
             addressOptions: addressOptions,
+            currentShippingAddress: quote.shippingAddress,
 
             initialize: function () {
                 this._super();
@@ -86,10 +90,15 @@ define(
             },
 
             initObservable: function () {
+                var isAddressNew = false;
+                if (!customer.isLoggedIn() || this.addressOptions.length === 1) {
+                    isAddressNew = true;
+                }
+
                 this._super()
                     .observe({
                         selectedAddress: null,
-                        isAddressNew: false,
+                        isAddressNew: isAddressNew,
                         saveInAddressBook: 1
                     });
 
@@ -107,9 +116,17 @@ define(
             },
 
             /**
+             * @param {int} countryId
+             * @return {*}
+             */
+            getCountryName: function (countryId) {
+                return countryData()[countryId] != undefined ? countryData()[countryId].name : '';
+            },
+
+            /**
              * Set shipping address.
              */
-            setShippingInformation: function () {
+            setShippingAddress: function () {
                 if (this.validateShippingAddress()) {
                     stepNavigator.next();
                 }
@@ -124,63 +141,67 @@ define(
                     loginFormSelector = 'form[data-role=email-with-possible-login]',
                     emailValidationResult = customer.isLoggedIn();
 
-                if (!customer.isLoggedIn()) {
-                    $(loginFormSelector).validation();
-                    emailValidationResult = Boolean($(loginFormSelector + ' input[name=username]').valid());
-                }
-
-                this.source.set('params.invalid', false);
-                this.source.trigger('shippingAddress.data.validate');
-
-                if (this.source.get('shippingAddress.custom_attributes')) {
-                    this.source.trigger('shippingAddress.custom_attributes.data.validate');
-                }
-
-                if (this.source.get('params.invalid')) {
-                    return false;
-                }
-
-                shippingAddress = quote.shippingAddress();
-                addressData = addressConverter.formAddressDataToQuoteAddress(
-                    this.source.get('shippingAddress')
-                );
-
-                //Copy form data to quote shipping address object
-                for (var field in addressData) {
-
-                    if (addressData.hasOwnProperty(field) &&
-                        shippingAddress.hasOwnProperty(field) &&
-                        typeof addressData[field] != 'function' &&
-                        _.isEqual(shippingAddress[field], addressData[field])
-                    ) {
-                        shippingAddress[field] = addressData[field];
-                    } else if (typeof addressData[field] != 'function' &&
-                        !_.isEqual(shippingAddress[field], addressData[field])) {
-                        shippingAddress = addressData;
-                        break;
+                if (customer.isLoggedIn() && !this.isAddressNew()) {
+                    return true;
+                } else {
+                    if (!customer.isLoggedIn()) {
+                        $(loginFormSelector).validation();
+                        emailValidationResult = Boolean($(loginFormSelector + ' input[name=username]').valid());
                     }
+
+                    this.source.set('params.invalid', false);
+                    this.source.trigger('shippingAddress.data.validate');
+
+                    if (this.source.get('shippingAddress.custom_attributes')) {
+                        this.source.trigger('shippingAddress.custom_attributes.data.validate');
+                    }
+
+                    if (this.source.get('params.invalid')) {
+                        return false;
+                    }
+
+                    shippingAddress = quote.shippingAddress();
+                    addressData = addressConverter.formAddressDataToQuoteAddress(
+                        this.source.get('shippingAddress')
+                    );
+
+                    //Copy form data to quote shipping address object
+                    for (var field in addressData) {
+
+                        if (addressData.hasOwnProperty(field) &&
+                            shippingAddress.hasOwnProperty(field) &&
+                            typeof addressData[field] != 'function' &&
+                            _.isEqual(shippingAddress[field], addressData[field])
+                        ) {
+                            shippingAddress[field] = addressData[field];
+                        } else if (typeof addressData[field] != 'function' &&
+                            !_.isEqual(shippingAddress[field], addressData[field])) {
+                            shippingAddress = addressData;
+                            break;
+                        }
+                    }
+
+                    if (customer.isLoggedIn()) {
+                        this.saveInAddressBook(this.isAddressNew());
+                    }
+
+                    if (customer.isLoggedIn() && this.addressOptions.length === 1) {
+                        this.saveInAddressBook(1);
+                    }
+
+                    addressData['save_in_address_book'] = this.saveInAddressBook() ? 1 : 0;
+                    addressData.saveInAddressBook = this.saveInAddressBook() ? 1 : 0;
+
+                    selectShippingAddress(shippingAddress);
+
+                    if (!emailValidationResult) {
+                        $(loginFormSelector + ' input[name=username]').focus();
+
+                        return false;
+                    }
+
+                    return true;
                 }
-
-                if (customer.isLoggedIn()) {
-                    this.saveInAddressBook(this.isAddressNew());
-                }
-
-                if (customer.isLoggedIn() && this.addressOptions.length === 1) {
-                    this.saveInAddressBook(1);
-                }
-
-                addressData['save_in_address_book'] = this.saveInAddressBook() ? 1 : 0;
-                addressData.saveInAddressBook = this.saveInAddressBook() ? 1 : 0;
-
-                selectShippingAddress(shippingAddress);
-
-                if (!emailValidationResult) {
-                    $(loginFormSelector + ' input[name=username]').focus();
-
-                    return false;
-                }
-
-                return true;
             },
 
             /**
@@ -197,7 +218,7 @@ define(
             onAddressChange: function (address) {
                 var streetObj = {};
 
-                if (address.customerAddressId !== null) {
+                if (address && address.customerAddressId !== null) {
                     this.isAddressNew(false);
                     address.country_id = address.countryId;
                     address.region_id = address.regionId;

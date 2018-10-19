@@ -1,20 +1,24 @@
-<div class="checkout-billing-address" data-bind="fadeVisible: visible()">
-    <div class="billing-address-same-as-shipping-block field choice" data-bind="visible: canUseShippingAddress()">
-        <input type="checkbox" name="billing-address-same-as-shipping"
-               data-bind="checked: isAddressSameAsShipping, click: useShippingAddress, attr: {id: 'billing-address-same-as-shipping-' + getCode($parent)}"/>
-        <label data-bind="attr: {for: 'billing-address-same-as-shipping-' + getCode($parent)}"><span
-                data-bind="i18n: 'My billing and shipping address are the same'"></span></label>
+<div data-bind="fadeVisible: visible()">
+    <div id="billing-address" class="step-content">
+        <div class="billing-address-same-as-shipping-block field choice" data-bind="visible: canUseShippingAddress()">
+            <input type="checkbox" name="billing-address-same-as-shipping"
+                   data-bind="checked: isAddressSameAsShipping, click: useShippingAddress, attr: {id: 'billing-address-same-as-shipping-' + getCode($parent)}"/>
+            <label data-bind="attr: {for: 'billing-address-same-as-shipping-' + getCode($parent)}"><span
+                    data-bind="i18n: 'My billing and shipping address are the same'"></span></label>
+        </div>
+
+        <div data-bind="if: !isAddressNew() && currentBillingAddress()">
+            <!-- ko template: 'GoMage_SuperLightCheckout/billing-address/details' --><!-- /ko -->
+        </div>
+
+        <fieldset class="fieldset" data-bind="visible: !isAddressSameAsShipping()">
+            <!-- ko template: 'GoMage_SuperLightCheckout/billing-address/list' --><!-- /ko -->
+        </fieldset>
+
+        <fieldset class="fieldset" data-bind="visible: isAddressNew() && !isAddressSameAsShipping()">
+            <!-- ko template: 'GoMage_SuperLightCheckout/billing-address/form' --><!-- /ko -->
+        </fieldset>
     </div>
-
-    <fieldset class="fieldset" data-bind="visible: !isAddressSameAsShipping()">
-        <!-- ko template: 'GoMage_SuperLightCheckout/billing-address/list' --><!-- /ko -->
-    </fieldset>
-
-    <!-- ko template: 'GoMage_SuperLightCheckout/billing-address/details' --><!-- /ko -->
-
-    <fieldset class="fieldset" data-bind="visible: isAddressFormVisible() && !isAddressSameAsShipping()">
-        <!-- ko template: 'GoMage_SuperLightCheckout/billing-address/form' --><!-- /ko -->
-    </fieldset>
 
     <div class="actions-toolbar" id="billing-address-buttons-container">
         <div class="secondary left">
@@ -23,11 +27,10 @@
             </a>
         </div>
         <div class="primary">
-            <button data-role="opc-continue" type="button" class="button action continue primary" data-bind="click: updateAddress">
+            <button data-role="opc-continue" type="button" class="button action continue primary"
+                    data-bind="click: setBillingAddress">
                 <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
             </button>
         </div>
     </div>
 </div>
-
-

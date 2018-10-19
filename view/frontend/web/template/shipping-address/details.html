@@ -1,0 +1,18 @@
+<div id="shipping-address-details" data-bind="if: !isAddressNew() && currentShippingAddress()">
+    <!-- ko text: currentShippingAddress().prefix --><!-- /ko --> <!-- ko text: currentShippingAddress().firstname --><!-- /ko -->
+    <!-- ko text: currentShippingAddress().lastname --><!-- /ko --> <!-- ko text: currentShippingAddress().suffix --><!-- /ko --><br/>
+    <!-- ko text: currentShippingAddress().street --><!-- /ko --><br/>
+    <!-- ko text: currentShippingAddress().city --><!-- /ko -->, <!-- ko text: currentShippingAddress().region --><!-- /ko --> <!-- ko text: currentShippingAddress().postcode --><!-- /ko --><br/>
+    <!-- ko text: getCountryName(currentShippingAddress().countryId) --><!-- /ko --><br/>
+    <!-- ko text: currentShippingAddress().telephone --><!-- /ko --><br/>
+    <!-- ko foreach: { data: currentShippingAddress().customAttributes, as: 'element' } -->
+        <!-- ko foreach: { data: Object.keys(element), as: 'attribute' } -->
+            <!-- ko if: element[attribute].value != null -->
+                <!-- ko text: element[attribute].value --><!-- /ko -->
+            <!-- /ko -->
+            <!-- ko if: element[attribute].value == null -->
+                <!-- ko text: element[attribute] --><!-- /ko -->
+            <!-- /ko -->
+        <!-- /ko -->
+    <!-- /ko -->
+</div>

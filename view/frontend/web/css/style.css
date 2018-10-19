@@ -110,12 +110,11 @@
 #checkout-popup #checkout #opc-sidebar .opc-block-summary .table-totals {
     border-collapse: unset;
 }
-ol {
-    display: block;
-    list-style-type: decimal;
-    margin-block-start: 0;
-    margin-block-end: 0;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 0;
+#checkout-popup #checkout #billing-address-details,
+#checkout-popup #checkout #shipping-address-details {
+    padding-top: 5%;
+}
+
+#checkout-popup #checkout #billing-address  .field-select-billing .control{
+    padding-top: 5%;
 }

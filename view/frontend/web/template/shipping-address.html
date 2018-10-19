@@ -1,16 +1,19 @@
 <li id="shipping-address" class="checkout-shipping-address" data-bind="fadeVisible: visible()">
-    <div class="step-title" data-bind="i18n: 'Shipping Address'" data-role="title"></div>
     <div id="checkout-step-shipping"
          class="step-content"
          data-role="content">
 
         <!-- ko if: (!quoteIsVirtual) -->
-        <!-- ko foreach: getRegion('customer-email') -->
-        <!-- ko template: getTemplate() --><!-- /ko -->
-        <!--/ko-->
+            <!-- ko foreach: getRegion('customer-email') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
         <!--/ko-->
 
         <!-- ko template: 'GoMage_SuperLightCheckout/shipping-address/list' --><!-- /ko -->
+
+        <div data-bind="if: !isAddressNew() && currentShippingAddress()">
+            <!-- ko template: 'GoMage_SuperLightCheckout/shipping-address/details' --><!-- /ko -->
+        </div>
 
         <!-- ko foreach: getRegion('address-list-additional-addresses') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
@@ -20,12 +23,14 @@
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
 
-        <!-- ko template: 'GoMage_SuperLightCheckout/shipping-address/form' --><!-- /ko -->
+        <fieldset class="fieldset" data-bind="visible: isAddressNew()">
+            <!-- ko template: 'GoMage_SuperLightCheckout/shipping-address/form' --><!-- /ko -->
+        </fieldset>
     </div>
 
     <div class="actions-toolbar" id="shipping-address-buttons-container">
         <div class="primary">
-            <button data-role="opc-continue" type="button" class="button action continue primary" data-bind="click: setShippingInformation">
+            <button data-role="opc-continue" type="button" class="button action continue primary" data-bind="click: setShippingAddress">
                 <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
             </button>
         </div>

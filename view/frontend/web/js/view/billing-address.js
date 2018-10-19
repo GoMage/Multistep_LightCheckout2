@@ -48,7 +48,6 @@ define(
         var observedElements = [],
             postcodeElement = null,
             postcodeElementName = 'postcode',
-            lastSelectedBillingAddress = null,
             newAddressOption = {
                 /**
                  * Get new address label
@@ -118,12 +117,15 @@ define(
             },
 
             initObservable: function () {
+                var isAddressNew = false;
+                if (!customer.isLoggedIn() || this.addressOptions.length === 1) {
+                    isAddressNew = true;
+                }
+
                 this._super()
                     .observe({
-                        isAddressNew: false,
+                        isAddressNew: isAddressNew,
                         selectedAddress: null,
-                        isAddressDetailsVisible: quote.billingAddress() != null,
-                        isAddressFormVisible: !customer.isLoggedIn() || addressOptions.length == 1,
                         isAddressSameAsShipping: false,
                         saveInAddressBook: 1
                     });
@@ -297,13 +299,12 @@ define(
              */
             onAddressChange: function (address) {
                 var streetObj = {};
-                this.isAddressDetailsVisible(false);
-                this.isAddressFormVisible(true);
 
                 if (address && address.customerAddressId !== null) {
                     this.isAddressNew(false);
                     address.country_id = address.countryId;
                     address.region_id = address.regionId;
+                    selectBillingAddress(address);
 
                     if (_.isArray(address.street)) {
                         //convert array to object to display street values on frontend.
@@ -332,16 +333,20 @@ define(
              * @inheritDoc
              */
             useShippingAddress: function () {
-            if (this.isAddressSameAsShipping()) {
-                selectBillingAddress(quote.shippingAddress());
+                checkoutData.setSelectedBillingAddress(null);
 
-                this.updateAddresses();
-                this.isAddressDetailsVisible(true);
-            } else {
-                this.onAddressChange(this.selectedAddress());
-            }
+                if (this.isAddressSameAsShipping()) {
+                    selectBillingAddress(quote.shippingAddress());
 
-            checkoutData.setSelectedBillingAddress(null);
+                    this.updateAddresses();
+                    this.isAddressNew(false);
+                } else {
+                    this.onAddressChange(this.selectedAddress());
+                    if (this.selectedAddress() !== null) {
+                        selectBillingAddress(this.selectedAddress());
+                        checkoutData.setSelectedBillingAddress(this.selectedAddress().getKey());
+                    }
+                }
 
             return true;
             },
@@ -369,7 +374,7 @@ define(
             /**
              * @inheritDoc
              */
-            updateAddress: function () {
+            setBillingAddress: function () {
                 if (this.isAddressSameAsShipping()) {
                     stepNavigator.next();
                 } else if (this.selectedAddress()
