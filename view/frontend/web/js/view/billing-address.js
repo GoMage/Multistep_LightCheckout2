@@ -130,20 +130,9 @@ define(
                         saveInAddressBook: 1
                     });
 
-                quote.billingAddress.subscribe(function (newAddress) {
+                quote.billingAddress.subscribe(function () {
                     if (quote.isVirtual()) {
                         this.isAddressSameAsShipping(false);
-                    } else {
-                        this.isAddressSameAsShipping(
-                            newAddress != null &&
-                            newAddress.getCacheKey() == quote.shippingAddress().getCacheKey()
-                        );
-                    }
-
-                    if (newAddress != null && newAddress.saveInAddressBook !== undefined) {
-                        this.saveInAddressBook(newAddress.saveInAddressBook);
-                    } else {
-                        this.saveInAddressBook(1);
                     }
                 }, this);
 
@@ -380,6 +369,7 @@ define(
                 } else if (this.selectedAddress()
                     && this.selectedAddress() != this.addressOptions[this.addressOptions.length - 1]
                 ) {
+                    this.saveInAddressBook(0);
                     selectBillingAddress(this.selectedAddress());
                     checkoutData.setSelectedBillingAddress(this.selectedAddress().getKey());
                     stepNavigator.next();
@@ -394,10 +384,6 @@ define(
                     if (!this.source.get('params.invalid')) {
                         var addressData = this.source.get('billingAddress'),
                             newBillingAddress;
-
-                        if (customer.isLoggedIn()) {
-                            this.saveInAddressBook(this.isAddressNew());
-                        }
 
                         if (customer.isLoggedIn() && !this.customerHasAddresses) {
                             this.saveInAddressBook(1);

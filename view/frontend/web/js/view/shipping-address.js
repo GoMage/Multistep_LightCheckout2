@@ -142,6 +142,9 @@ define(
                     emailValidationResult = customer.isLoggedIn();
 
                 if (customer.isLoggedIn() && !this.isAddressNew()) {
+                    this.saveInAddressBook(0);
+                    selectShippingAddress(this.selectedAddress());
+
                     return true;
                 } else {
                     if (!customer.isLoggedIn()) {
@@ -179,10 +182,6 @@ define(
                             shippingAddress = addressData;
                             break;
                         }
-                    }
-
-                    if (customer.isLoggedIn()) {
-                        this.saveInAddressBook(this.isAddressNew());
                     }
 
                     if (customer.isLoggedIn() && this.addressOptions.length === 1) {

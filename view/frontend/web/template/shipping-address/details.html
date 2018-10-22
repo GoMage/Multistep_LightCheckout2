@@ -1,7 +1,9 @@
 <div id="shipping-address-details" data-bind="if: !isAddressNew() && currentShippingAddress()">
     <!-- ko text: currentShippingAddress().prefix --><!-- /ko --> <!-- ko text: currentShippingAddress().firstname --><!-- /ko -->
     <!-- ko text: currentShippingAddress().lastname --><!-- /ko --> <!-- ko text: currentShippingAddress().suffix --><!-- /ko --><br/>
-    <!-- ko text: currentShippingAddress().street --><!-- /ko --><br/>
+    <!-- ko if: currentShippingAddress().street -->
+    <!-- ko text: currentShippingAddress().street[0] --><!-- /ko --><!-- ko text: currentShippingAddress().street[1]--><!-- /ko --><br/>
+    <!-- /ko -->
     <!-- ko text: currentShippingAddress().city --><!-- /ko -->, <!-- ko text: currentShippingAddress().region --><!-- /ko --> <!-- ko text: currentShippingAddress().postcode --><!-- /ko --><br/>
     <!-- ko text: getCountryName(currentShippingAddress().countryId) --><!-- /ko --><br/>
     <!-- ko text: currentShippingAddress().telephone --><!-- /ko --><br/>
