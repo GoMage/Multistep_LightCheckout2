@@ -18,4 +18,7 @@
             <argument name="checkoutConverterDomFlat" xsi:type="object">SuperLightCheckoutConverterDomFlat</argument>
         </arguments>
     </type>
+    <preference for="GoMage\SuperLightCheckout\Api\GuestQuoteItemManagementInterface" type="GoMage\SuperLightCheckout\Model\GuestQuoteItemManagement" />
+    <preference for="GoMage\SuperLightCheckout\Api\QuoteItemManagementInterface" type="GoMage\SuperLightCheckout\Model\QuoteItemManagement" />
+    <preference for="GoMage\SuperLightCheckout\Model\QuoteItemManagement\ResponseDataInterface" type="GoMage\SuperLightCheckout\Model\QuoteItemManagement\ResponseData" />
 </config>

@@ -10,6 +10,8 @@ define(
         return Component.extend({
             visible: ko.observable(false),
             showSummarySelector: '#checkout-popup #checkout #modal-header button#show-summary',
+            modalTitle: window.checkoutConfig.general.pageTitle,
+
             orderTotal: ko.computed(function() {
                 return grandTotal().getValue();
             }, this),

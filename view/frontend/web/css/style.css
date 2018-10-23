@@ -92,10 +92,17 @@
     padding-left: 0;
 }
 
-#checkout-popup #checkout #opc-sidebar .items-in-cart .product-item-details .product-item-name {
+#checkout-popup #checkout #opc-sidebar .items-in-cart .product-item-details .product-item-name-block {
     display: inline;
     float: left;
-    width: 70%;
+    width: 60%;
+}
+#checkout-popup #checkout #opc-sidebar .items-in-cart .product-item-details .product-item-name {
+    float: left;
+    width: 85%;
+}
+#checkout-popup #checkout #opc-sidebar .items-in-cart .product-item-details #after-details {
+    display: inline-flex;
 }
 
  #checkout-popup #checkout #opc-sidebar .items-in-cart .product-item-details .value{
@@ -117,4 +124,7 @@
 
 #checkout-popup #checkout #billing-address  .field-select-billing .control{
     padding-top: 5%;
+}
+#checkout-popup #checkout #page-content {
+    margin-bottom: 2%;
 }

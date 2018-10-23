@@ -42,6 +42,10 @@ define(
                     40
                 );
 
+                if (!checkoutData.getSelectedPaymentMethod() && window.checkoutConfig.general.defaultPaymentMethod) {
+                    checkoutData.setSelectedPaymentMethod(window.checkoutConfig.general.defaultPaymentMethod);
+                }
+
                 additionalValidators.registerValidator(this);
 
                 quote.paymentMethod.subscribe(function () {

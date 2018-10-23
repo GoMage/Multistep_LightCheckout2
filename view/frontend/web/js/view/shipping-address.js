@@ -168,6 +168,13 @@ define(
                         this.source.get('shippingAddress')
                     );
 
+                    if (customer.isLoggedIn() && this.addressOptions.length === 1) {
+                        this.saveInAddressBook(1);
+                    }
+
+                    addressData['save_in_address_book'] = this.saveInAddressBook() ? 1 : 0;
+                    addressData.saveInAddressBook = this.saveInAddressBook() ? 1 : 0;
+
                     //Copy form data to quote shipping address object
                     for (var field in addressData) {
 
@@ -183,13 +190,6 @@ define(
                             break;
                         }
                     }
-
-                    if (customer.isLoggedIn() && this.addressOptions.length === 1) {
-                        this.saveInAddressBook(1);
-                    }
-
-                    addressData['save_in_address_book'] = this.saveInAddressBook() ? 1 : 0;
-                    addressData.saveInAddressBook = this.saveInAddressBook() ? 1 : 0;
 
                     selectShippingAddress(shippingAddress);
 

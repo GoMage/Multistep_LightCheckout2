@@ -3,6 +3,7 @@
 namespace GoMage\SuperLightCheckout\Block\Onepage;
 
 use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\MergeComponentFromMagentoCheckout;
+use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\UpdateBlocksAccordingToConfigurationByJsLayout;
 use Magento\Checkout\Block\Checkout\AttributeMerger;
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use Magento\Customer\Model\Options;
@@ -50,6 +51,11 @@ class LayoutProcessor implements LayoutProcessorInterface
     private $mergeComponentFromMagentoCheckout;
 
     /**
+     * @var UpdateBlocksAccordingToConfigurationByJsLayout
+     */
+    private $updateBlocksAccordingToConfigurationByJsLayout;
+
+    /**
      * @param \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
      * @param \Magento\Ui\Component\Form\AttributeMapper $attributeMapper
      * @param AttributeMerger $merger
@@ -57,6 +63,7 @@ class LayoutProcessor implements LayoutProcessorInterface
      * @param StoreResolverInterface $storeResolver
      * @param Options $options
      * @param MergeComponentFromMagentoCheckout $mergeComponentFromMagentoCheckout
+     * @param UpdateBlocksAccordingToConfigurationByJsLayout $updateBlocksAccordingToConfigurationByJsLayout
      */
     public function __construct(
         \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider,
@@ -65,7 +72,8 @@ class LayoutProcessor implements LayoutProcessorInterface
         Config $shippingConfig,
         StoreResolverInterface $storeResolver,
         Options $options,
-        MergeComponentFromMagentoCheckout $mergeComponentFromMagentoCheckout
+        MergeComponentFromMagentoCheckout $mergeComponentFromMagentoCheckout,
+        UpdateBlocksAccordingToConfigurationByJsLayout $updateBlocksAccordingToConfigurationByJsLayout
     ) {
         $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
         $this->attributeMapper = $attributeMapper;
@@ -74,6 +82,7 @@ class LayoutProcessor implements LayoutProcessorInterface
         $this->storeResolver = $storeResolver;
         $this->options = $options;
         $this->mergeComponentFromMagentoCheckout = $mergeComponentFromMagentoCheckout;
+        $this->updateBlocksAccordingToConfigurationByJsLayout = $updateBlocksAccordingToConfigurationByJsLayout;
     }
 
     /**
@@ -193,6 +202,7 @@ class LayoutProcessor implements LayoutProcessorInterface
         }
 
         $jsLayout = $this->mergeComponentFromMagentoCheckout->execute($jsLayout);
+        $jsLayout = $this->updateBlocksAccordingToConfigurationByJsLayout->execute($jsLayout);
 
         return $jsLayout;
     }

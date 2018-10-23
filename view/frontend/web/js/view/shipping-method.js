@@ -71,6 +71,11 @@ define(
                         30
                     );
                 }
+
+                if (!checkoutData.getSelectedShippingRate() && window.checkoutConfig.general.defaultShippingMethod) {
+                    checkoutData.setSelectedShippingRate(window.checkoutConfig.general.defaultShippingMethod);
+                }
+
                 return this;
             },
 

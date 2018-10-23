@@ -118,6 +118,7 @@ define(
 
             initObservable: function () {
                 var isAddressNew = false;
+
                 if (!customer.isLoggedIn() || this.addressOptions.length === 1) {
                     isAddressNew = true;
                 }
@@ -126,7 +127,7 @@ define(
                     .observe({
                         isAddressNew: isAddressNew,
                         selectedAddress: null,
-                        isAddressSameAsShipping: false,
+                        isAddressSameAsShipping: window.checkoutConfig.general.billingAndShippingAreTheSameChecked,
                         saveInAddressBook: 1
                     });
 
