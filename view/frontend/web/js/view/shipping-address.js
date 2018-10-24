@@ -21,7 +21,8 @@ define(
         'Magento_Checkout/js/checkout-data',
         'Magento_Customer/js/customer-data',
         'uiRegistry',
-        'mage/translate'
+        'mage/translate',
+        'GoMage_SuperLightCheckout/js/action/save-additional-information'
     ],
     function (
         Component,
@@ -45,7 +46,8 @@ define(
         checkoutData,
         customerData,
         registry,
-        $t
+        $t,
+        saveAdditionalInformation
     ) {
         'use strict';
 
@@ -129,7 +131,10 @@ define(
             setShippingAddress: function () {
                 if (this.validateShippingAddress()) {
                     registry.get('checkout.steps.billing-address-step.billingAddress').useShippingAddress();
-                    stepNavigator.next();
+                    $.when(saveAdditionalInformation()).done(function () {
+                        stepNavigator.next();
+                    });
+
                 }
             },
 

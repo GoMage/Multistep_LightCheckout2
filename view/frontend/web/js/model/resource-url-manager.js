@@ -31,8 +31,15 @@ define(
                     'customer': '/superlight_checkout/carts/mine/quote-items/:itemId'
                 };
                 return this.getUrl(urls, params);
-            }
+            },
 
+            getUrlForSaveAdditionalInformation: function () {
+                var urls = {
+                    'default': '/light_checkout/additional-checkout-information'
+                };
+
+                return this.getUrl(urls, {});
+            }
         }, resourceUrlManager);
     }
 );

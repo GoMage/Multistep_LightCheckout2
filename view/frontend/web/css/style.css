@@ -133,6 +133,14 @@
     width: 48%
 }
 
+.half {
+    width: 49.5%
+}
+
 .full {
     width: 100%;
+}
+
+.fieldset > .form-create-account> .field.required > .label:after {
+    content: '*';  color: #e02b27;  font-size: 1.2rem;  margin: 0 0 0 5px;
 }

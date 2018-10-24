@@ -34,10 +34,10 @@ class PrepareAddressFieldsPositions
         $preparedBillingFields = $this->prepareByAddressChildren($billingFields);
         $preparedShippingFields = $this->prepareByAddressChildren($shippingFields);
 
-        if (isset($billingFields['createAccount'])) {
-            $preparedBillingFields = array_merge(
-                $preparedBillingFields,
-                ['createAccount' => $billingFields['createAccount']]
+        if (isset($shippingFields['createAccount'])) {
+            $preparedShippingFields = array_merge(
+                $preparedShippingFields,
+                ['createAccount' => $shippingFields['createAccount']]
             );
         }
 

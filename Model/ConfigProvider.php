@@ -2,6 +2,7 @@
 
 namespace GoMage\SuperLightCheckout\Model;
 
+use GoMage\SuperLightCheckout\Model\ConfigProvider\PasswordSettingProvider;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
@@ -50,6 +51,11 @@ class ConfigProvider implements ConfigProviderInterface
     private $url;
 
     /**
+     * @var PasswordSettingProvider
+     */
+    private $passwordSettingProvider;
+
+    /**
      * @param CheckoutSession $session
      * @param CheckoutConfigurationsProvider $checkoutConfigurationsProvider
      * @param PaymentMethodManagementInterface $paymentMethodManagement
@@ -57,6 +63,7 @@ class ConfigProvider implements ConfigProviderInterface
      * @param DirectoryHelper $directoryHelper
      * @param TotalsCollector $totalsCollector
      * @param Url $url
+     * @param PasswordSettingProvider $passwordSettingProvider
      */
     public function __construct(
         CheckoutSession $session,
@@ -65,7 +72,8 @@ class ConfigProvider implements ConfigProviderInterface
         ShippingMethodConverter $shippingMethodConverter,
         DirectoryHelper $directoryHelper,
         TotalsCollector $totalsCollector,
-        Url $url
+        Url $url,
+        PasswordSettingProvider $passwordSettingProvider
     ) {
         $this->checkoutSession = $session;
         $this->checkoutConfigurationsProvider = $checkoutConfigurationsProvider;
@@ -74,6 +82,7 @@ class ConfigProvider implements ConfigProviderInterface
         $this->directoryHelper = $directoryHelper;
         $this->totalsCollector = $totalsCollector;
         $this->url = $url;
+        $this->passwordSettingProvider = $passwordSettingProvider;
     }
 
     /**
@@ -82,7 +91,9 @@ class ConfigProvider implements ConfigProviderInterface
     public function getConfig()
     {
         $config = [
-            'general' => $this->getGeneralConfig()
+            'general' => $this->getGeneralConfig(),
+            'passwordSettings' => $this->passwordSettingProvider->get(),
+            'registration' => $this->getRegistrationConfig(),
         ];
 
         return $config;
@@ -185,6 +196,21 @@ class ConfigProvider implements ConfigProviderInterface
             'defaultShippingMethod' => $this->getDefaultShippingMethod($this->checkoutSession->getQuote()),
             'billingAndShippingAreTheSameChecked' => $this->checkoutConfigurationsProvider->getGeneralConfigurations()
                 ->getBillingAndShippingAreTheSameCheckboxChecked(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getRegistrationConfig()
+    {
+        $registrationSettings = $this->checkoutConfigurationsProvider->getRegistrationSettings();
+
+        return [
+            'checkoutMode' => $registrationSettings->getCheckoutMode(),
+            'isCreateAnAccountCheckboxChecked' => $registrationSettings->getCreateAnAccountCheckbox(),
+            'autoRegistration' => $registrationSettings->getIsAutoRegistration(),
+            'registrationUrl' => $this->url->getRegisterUrl(),
         ];
     }
 }

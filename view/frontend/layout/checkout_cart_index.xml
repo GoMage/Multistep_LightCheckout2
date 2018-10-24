@@ -71,7 +71,8 @@
                                                         <item name="sortOrder" xsi:type="string">1</item>
                                                         <item name="children" xsi:type="array">
                                                             <item name="customer-email" xsi:type="array">
-                                                                <item name="component" xsi:type="string">Magento_Checkout/js/view/form/element/email</item>
+                                                                <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/email</item>
+                                                                <item name="template" xsi:type="string">GoMage_SuperLightCheckout/email</item>
                                                                 <item name="displayArea" xsi:type="string">customer-email</item>
                                                                 <item name="tooltip" xsi:type="array">
                                                                     <item name="description" xsi:type="string" translate="true">We'll send your order confirmation here.</item>
@@ -173,6 +174,14 @@
                                                                             <item name="tooltip" xsi:type="array">
                                                                                 <item name="description" xsi:type="string" translate="true">For delivery questions.</item>
                                                                             </item>
+                                                                        </item>
+                                                                    </item>
+                                                                    <item name="createAccount" xsi:type="array">
+                                                                        <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/billing-address/create-account</item>
+                                                                        <item name="displayArea" xsi:type="string">create-account</item>
+                                                                        <item name="sortOrder" xsi:type="string">999</item>
+                                                                        <item name="config" xsi:type="array">
+                                                                            <item name="additionalClasses" xsi:type="string">full left</item>
                                                                         </item>
                                                                     </item>
                                                                 </item>
