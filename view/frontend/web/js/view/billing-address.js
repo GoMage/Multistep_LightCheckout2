@@ -1,6 +1,7 @@
 define(
     [
         'jquery',
+        'underscore',
         'ko',
         'Magento_Ui/js/form/form',
         'uiRegistry',
@@ -11,7 +12,6 @@ define(
         'Magento_Checkout/js/model/shipping-rates-validation-rules',
         'Magento_Checkout/js/model/postcode-validator',
         'mage/translate',
-        'underscore',
         'Magento_Customer/js/model/customer',
         'GoMage_SuperLightCheckout/js/model/step-navigator',
         'Magento_Checkout/js/action/create-billing-address',
@@ -23,6 +23,7 @@ define(
     ],
     function (
         $,
+        _,
         ko,
         Component,
         uiRegistry,
@@ -33,7 +34,6 @@ define(
         shippingRatesValidationRules,
         postcodeValidator,
         $t,
-        _,
         customer,
         stepNavigator,
         createBillingAddress,
@@ -117,7 +117,10 @@ define(
             },
 
             initObservable: function () {
-                var isAddressNew = false;
+                var isAddressNew = false,
+                    isAddressSameAsShipping = parseInt(
+                        window.checkoutConfig.general.billingAndShippingAreTheSameChecked
+                    );
 
                 if (!customer.isLoggedIn() || this.addressOptions.length === 1) {
                     isAddressNew = true;
@@ -127,7 +130,7 @@ define(
                     .observe({
                         isAddressNew: isAddressNew,
                         selectedAddress: null,
-                        isAddressSameAsShipping: window.checkoutConfig.general.billingAndShippingAreTheSameChecked,
+                        isAddressSameAsShipping: isAddressSameAsShipping,
                         saveInAddressBook: 1
                     });
 

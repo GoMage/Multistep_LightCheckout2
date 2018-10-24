@@ -128,3 +128,11 @@
 #checkout-popup #checkout #page-content {
     margin-bottom: 2%;
 }
+
+.address-half {
+    width: 48%
+}
+
+.full {
+    width: 100%;
+}

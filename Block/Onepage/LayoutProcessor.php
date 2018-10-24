@@ -2,6 +2,7 @@
 
 namespace GoMage\SuperLightCheckout\Block\Onepage;
 
+use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\PrepareAddressFieldsPositions;
 use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\MergeComponentFromMagentoCheckout;
 use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\UpdateBlocksAccordingToConfigurationByJsLayout;
 use Magento\Checkout\Block\Checkout\AttributeMerger;
@@ -56,6 +57,11 @@ class LayoutProcessor implements LayoutProcessorInterface
     private $updateBlocksAccordingToConfigurationByJsLayout;
 
     /**
+     * @var PrepareAddressFieldsPositions
+     */
+    private $prepareAddressFieldsPositions;
+
+    /**
      * @param \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
      * @param \Magento\Ui\Component\Form\AttributeMapper $attributeMapper
      * @param AttributeMerger $merger
@@ -64,6 +70,7 @@ class LayoutProcessor implements LayoutProcessorInterface
      * @param Options $options
      * @param MergeComponentFromMagentoCheckout $mergeComponentFromMagentoCheckout
      * @param UpdateBlocksAccordingToConfigurationByJsLayout $updateBlocksAccordingToConfigurationByJsLayout
+     * @param PrepareAddressFieldsPositions $prepareAddressFieldsPositions
      */
     public function __construct(
         \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider,
@@ -73,7 +80,8 @@ class LayoutProcessor implements LayoutProcessorInterface
         StoreResolverInterface $storeResolver,
         Options $options,
         MergeComponentFromMagentoCheckout $mergeComponentFromMagentoCheckout,
-        UpdateBlocksAccordingToConfigurationByJsLayout $updateBlocksAccordingToConfigurationByJsLayout
+        UpdateBlocksAccordingToConfigurationByJsLayout $updateBlocksAccordingToConfigurationByJsLayout,
+        PrepareAddressFieldsPositions $prepareAddressFieldsPositions
     ) {
         $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
         $this->attributeMapper = $attributeMapper;
@@ -83,6 +91,7 @@ class LayoutProcessor implements LayoutProcessorInterface
         $this->options = $options;
         $this->mergeComponentFromMagentoCheckout = $mergeComponentFromMagentoCheckout;
         $this->updateBlocksAccordingToConfigurationByJsLayout = $updateBlocksAccordingToConfigurationByJsLayout;
+        $this->prepareAddressFieldsPositions = $prepareAddressFieldsPositions;
     }
 
     /**
@@ -202,6 +211,7 @@ class LayoutProcessor implements LayoutProcessorInterface
         }
 
         $jsLayout = $this->mergeComponentFromMagentoCheckout->execute($jsLayout);
+        $jsLayout = $this->prepareAddressFieldsPositions->execute($jsLayout);
         $jsLayout = $this->updateBlocksAccordingToConfigurationByJsLayout->execute($jsLayout);
 
         return $jsLayout;

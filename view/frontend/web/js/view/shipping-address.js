@@ -128,6 +128,7 @@ define(
              */
             setShippingAddress: function () {
                 if (this.validateShippingAddress()) {
+                    registry.get('checkout.steps.billing-address-step.billingAddress').useShippingAddress();
                     stepNavigator.next();
                 }
             },
