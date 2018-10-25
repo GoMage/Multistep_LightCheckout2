@@ -50,7 +50,7 @@
                     <label>Allow to Remove Item from Checkout</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="enable_discount_codes" translate="label" type="select" sortOrder="160"
+                <field id="is_enabled_discount_codes" translate="label" type="select" sortOrder="160"
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Discount Codes</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -84,6 +84,15 @@
                 <field id="fields_form" type="text" sortOrder="10" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <frontend_model>GoMage\SuperLightCheckout\Block\Adminhtml\Config\CheckoutAddressFieldsSorting</frontend_model>
+                </field>
+            </group>
+            <group id="terms_and_conditions" translate="label" type="text" sortOrder="250" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Terms And Conditions</label>
+                <field id="is_enabled" translate="label" type="select" sortOrder="20"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Terms and Conditions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
         </section>

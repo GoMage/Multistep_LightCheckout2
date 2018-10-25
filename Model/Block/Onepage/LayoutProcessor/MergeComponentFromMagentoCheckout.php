@@ -125,6 +125,13 @@ class MergeComponentFromMagentoCheckout
             ['children']['itemsAfter']['children'],
             'itemsAfter'
         );
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['payment-step']
+        ['children']['payment']['children']['payments-list']['children']
+            = $this->mergePaymentBeforePlaceOrderChildElement(
+            $jsLayout['components']['checkout']['children']['steps']['children']['payment-step']
+            ['children']['payment']['children']['payments-list']['children']['before-place-order']
+        );
         
         return $jsLayout;
     }
@@ -195,6 +202,25 @@ class MergeComponentFromMagentoCheckout
             . '/item[@name="steps"]/item[@name="children"]/item[@name="shipping-address-step"]'
             . '/item[@name="children"]/item[@name="shippingAddress"]/item[@name="children"]'
             . '/item[@name="' . $elementName . '"]/item[@name="children"]';
+
+        $args = $this->fetchArgs->execute('checkout_index_index', $path);
+
+        return array_merge($args, $layout);
+    }
+
+    /**
+     * @param array $layout
+     *
+     * @return array
+     */
+    private function mergePaymentBeforePlaceOrderChildElement($layout)
+    {
+        $path = '//referenceBlock[@name="checkout.root"]/arguments/argument[@name="jsLayout"]'
+            . '/item[@name="components"]/item[@name="checkout"]/item[@name="children"]'
+            . '/item[@name="steps"]/item[@name="children"]/item[@name="billing-step"]'
+            . '/item[@name="children"]/item[@name="payment"]/item[@name="children"]'
+            . '/item[@name="payments-list"]/item[@name="children"]'
+            . '/item[@name="before-place-order"]/item[@name="children"]';
 
         $args = $this->fetchArgs->execute('checkout_index_index', $path);
 
