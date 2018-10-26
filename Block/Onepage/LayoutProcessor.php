@@ -2,8 +2,8 @@
 
 namespace GoMage\SuperLightCheckout\Block\Onepage;
 
-use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\PrepareAddressFieldsPositions;
 use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\MergeComponentFromMagentoCheckout;
+use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\PrepareAddressFieldsPositions;
 use GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor\UpdateBlocksAccordingToConfigurationByJsLayout;
 use Magento\Checkout\Block\Checkout\AttributeMerger;
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
@@ -11,9 +11,6 @@ use Magento\Customer\Model\Options;
 use Magento\Shipping\Model\Config;
 use Magento\Store\Api\StoreResolverInterface;
 
-/**
- * Class LayoutProcessor
- */
 class LayoutProcessor implements LayoutProcessorInterface
 {
     /**

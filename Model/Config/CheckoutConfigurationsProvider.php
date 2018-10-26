@@ -5,6 +5,7 @@ namespace GoMage\SuperLightCheckout\Model\Config;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\CheckoutAddressFieldsProvider;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\GeneralConfigurationsProvider;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\RegistrationSettingsProvider;
+use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\SocialLoginProvider;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\TermsAndConditionsProvider;
 
 class CheckoutConfigurationsProvider
@@ -28,23 +29,31 @@ class CheckoutConfigurationsProvider
      * @var TermsAndConditionsProvider 
      */
     private $termsAndConditionsProvider;
-    
+
+    /**
+     * @var SocialLoginProvider
+     */
+    private $socialLoginProvider;
+
     /**
      * @param GeneralConfigurationsProvider $generalConfigurationsProvider
      * @param CheckoutAddressFieldsProvider $checkoutAddressFieldsProvider
      * @param RegistrationSettingsProvider $registrationSettingsProvider
      * @param TermsAndConditionsProvider $termsAndConditionsProvider
+     * @param SocialLoginProvider $socialLoginProvider
      */
     public function __construct(
         GeneralConfigurationsProvider $generalConfigurationsProvider,
         CheckoutAddressFieldsProvider $checkoutAddressFieldsProvider,
         RegistrationSettingsProvider $registrationSettingsProvider,
-        TermsAndConditionsProvider $termsAndConditionsProvider
+        TermsAndConditionsProvider $termsAndConditionsProvider,
+        SocialLoginProvider $socialLoginProvider
     ) {
         $this->generalConfigurationsProvider = $generalConfigurationsProvider;
         $this->checkoutAddressFieldsProvider = $checkoutAddressFieldsProvider;
         $this->registrationSettingsProvider = $registrationSettingsProvider;
         $this->termsAndConditionsProvider = $termsAndConditionsProvider;
+        $this->socialLoginProvider = $socialLoginProvider;
     }
 
     public function getGeneralConfigurations()
@@ -65,5 +74,10 @@ class CheckoutConfigurationsProvider
     public function getTermsAndConditions()
     {
         return $this->termsAndConditionsProvider;
+    }
+
+    public function getSocialLogin()
+    {
+        return $this->socialLoginProvider;
     }
 }

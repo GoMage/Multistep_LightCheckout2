@@ -49,7 +49,7 @@ class MergeComponentFromMagentoCheckout
             ['children']['payment']['children']['beforeMethods']['children'],
             'beforeMethods'
         );
-        
+
         $jsLayout['components']['checkout']['children']['steps']['children']['payment-step']
         ['children']['payment']['children']['payments-list']['children']
             = $this->mergePaymentChildElement(
@@ -132,7 +132,7 @@ class MergeComponentFromMagentoCheckout
             $jsLayout['components']['checkout']['children']['steps']['children']['payment-step']
             ['children']['payment']['children']['payments-list']['children']['before-place-order']
         );
-        
+
         return $jsLayout;
     }
 
