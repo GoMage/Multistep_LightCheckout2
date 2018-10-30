@@ -22,4 +22,6 @@
     <preference for="GoMage\SuperLightCheckout\Api\QuoteItemManagementInterface" type="GoMage\SuperLightCheckout\Model\QuoteItemManagement" />
     <preference for="GoMage\SuperLightCheckout\Model\QuoteItemManagement\ResponseDataInterface" type="GoMage\SuperLightCheckout\Model\QuoteItemManagement\ResponseData" />
     <preference for="GoMage\SuperLightCheckout\Api\CheckoutAdditionalManagementInterface" type="GoMage\SuperLightCheckout\Model\CheckoutAdditionalManagement" />
+    <preference for="GoMage\SuperLightCheckout\Api\GetAddressByPostCodeInterface" type="GoMage\SuperLightCheckout\Model\GetAddressByPostCode" />
+    <preference for="GoMage\SuperLightCheckout\Model\GetAddressByPostCode\ResponseDataInterface" type="GoMage\SuperLightCheckout\Model\GetAddressByPostCode\ResponseData" />
 </config>

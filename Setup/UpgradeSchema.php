@@ -17,8 +17,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $setup->startSetup();
+
         if (version_compare($context->getVersion(), '1.1.1', '<')) {
             $this->updateTo111($setup);
+        }
+        if (version_compare($context->getVersion(), '1.1.2', '<')) {
+            $this->updateTo112($setup);
         }
 
         $setup->endSetup();
@@ -61,6 +65,43 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     Table::ACTION_CASCADE
                 )
                 ->setComment('Social Customer Table')
+        );
+    }
+
+    private function updateTo112(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->createTable(
+            $setup->getConnection()->newTable(
+                $setup->getTable('gomage_postcode')
+            )->addColumn(
+                'entity_id',
+                Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'Record Id'
+            )->addColumn(
+                'zip_code',
+                Table::TYPE_TEXT,
+                16,
+                ['unsigned' => true, 'nullable' => false],
+                'Zip Code'
+            )->addColumn(
+                'encoded_data',
+                Table::TYPE_TEXT,
+                255,
+                [],
+                'Data'
+            )->setComment(
+                'Post codes'
+            )->addIndex(
+                $setup->getIdxName(
+                    $setup->getTable('gomage_postcode'),
+                    ['zip_code'],
+                    AdapterInterface::INDEX_TYPE_UNIQUE
+                ),
+                'zip_code',
+                ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
+            )
         );
     }
 }

@@ -43,6 +43,7 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
         $jsLayout = $this->disableDeletingItemOnCheckoutAccordingToTheConfiguration($jsLayout);
         $jsLayout = $this->disableChangingQtyOnCheckoutAccordingToTheConfiguration($jsLayout);
         $jsLayout = $this->addSocialNetworksAccordingToTheConfiguration($jsLayout);
+        $jsLayout = $this->updateTemplateForPostcodeFieldAccordingToTheConfiguration($jsLayout);
 
         return $jsLayout;
     }
@@ -150,6 +151,35 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
             unset($jsLayout['components']['checkout']['children']['steps']['children']
                 ['shipping-address-step']['children']['shippingAddress']['children']['customer-email']
                 ['children']['social-networks']['children']['twitter']);
+        }
+
+        return $jsLayout;
+    }
+
+    /**
+     * @param array $jsLayout
+     *
+     * @return array
+     */
+    private function updateTemplateForPostcodeFieldAccordingToTheConfiguration($jsLayout)
+    {
+        if ($this->checkoutConfigurationsProvider->getAutofillByZipCode()->getIsEnabledAutoFillByZipCode()) {
+            $jsLayout['components']['checkout']['children']['steps']['children']['billing-address-step']['children']
+            ['billingAddress']['children']['billing-address-fieldset']
+            ['children']['postcode']['config']['elementTmpl']
+                = 'GoMage_SuperLightCheckout/element/element-with-blur-template';
+            $jsLayout['components']['checkout']['children']['steps']['children']['billing-address-step']
+            ['children']['billingAddress']['children']['billing-address-fieldset']
+            ['children']['postcode']['component']
+                = 'GoMage_SuperLightCheckout/js/view/post-code';
+
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode']['config']
+            ['elementTmpl']
+                = 'GoMage_SuperLightCheckout/element/element-with-blur-template';
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode']['component']
+                = 'GoMage_SuperLightCheckout/js/view/post-code';
         }
 
         return $jsLayout;

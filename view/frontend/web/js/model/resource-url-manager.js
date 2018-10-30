@@ -35,11 +35,20 @@ define(
 
             getUrlForSaveAdditionalInformation: function () {
                 var urls = {
-                    'default': '/light_checkout/additional-checkout-information'
+                    'default': '/superlight_checkout/additional-checkout-information'
+                };
+
+                return this.getUrl(urls, {});
+            },
+
+            getUrlForGetAddressByPostCode: function () {
+                var urls = {
+                    'default': '/superlight_checkout/get-address-by-zip-code'
                 };
 
                 return this.getUrl(urls, {});
             }
+
         }, resourceUrlManager);
     }
 );

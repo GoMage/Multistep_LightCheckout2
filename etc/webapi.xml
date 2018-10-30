@@ -31,8 +31,14 @@
             <parameter name="cartId" force="true">%cart_id%</parameter>
         </data>
     </route>
-    <route url="/V1/light_checkout/additional-checkout-information" method="POST">
+    <route url="/V1/superlight_checkout/additional-checkout-information" method="POST">
         <service class="GoMage\SuperLightCheckout\Api\CheckoutAdditionalManagementInterface" method="saveAdditionalInformation"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/superlight_checkout/get-address-by-zip-code" method="POST">
+        <service class="GoMage\SuperLightCheckout\Api\GetAddressByPostCodeInterface" method="execute"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
