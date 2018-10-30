@@ -19,7 +19,9 @@ define(
         'Magento_Checkout/js/model/checkout-data-resolver',
         'Magento_Customer/js/customer-data',
         'Magento_Checkout/js/action/set-billing-address',
-        'Magento_Ui/js/model/messageList'
+        'Magento_Ui/js/model/messageList',
+        'GoMage_SuperLightCheckout/js/model/address/auto-complete-register',
+        'rjsResolver'
     ],
     function (
         $,
@@ -41,7 +43,9 @@ define(
         checkoutDataResolver,
         customerData,
         setBillingAddressAction,
-        globalMessageList
+        globalMessageList,
+        autoCompleteRegister,
+        rjsResolver
     ) {
         'use strict';
 
@@ -106,7 +110,13 @@ define(
                     20
                 );
 
+                rjsResolver(this.registerAutoComplete.bind(this));
+
                 return this;
+            },
+
+            registerAutoComplete: function () {
+                autoCompleteRegister.register('billing');
             },
 
             /**
@@ -311,7 +321,9 @@ define(
                     this.isAddressNew(true);
                 }
 
-                this.source.set('billingAddress', address);
+                if (address !== null) {
+                    this.source.set('billingAddress', address);
+                }
             },
 
             /**

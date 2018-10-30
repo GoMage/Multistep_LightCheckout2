@@ -499,5 +499,11 @@
                 </arguments>
             </block>
         </referenceBlock>
+        <referenceBlock name="head.additional">
+            <block class="GoMage\SuperLightCheckout\Block\Onepage\AddJsForGoogleAutoCompleteStreet"
+                   name="google-auto-complete-street"
+                   as="google-auto-complete-street"
+                   template="google_auto_complete_street.phtml"/>
+        </referenceBlock>
     </body>
 </page>

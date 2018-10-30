@@ -94,6 +94,7 @@ class ConfigProvider implements ConfigProviderInterface
             'general' => $this->getGeneralConfig(),
             'passwordSettings' => $this->passwordSettingProvider->get(),
             'registration' => $this->getRegistrationConfig(),
+            'autoCompleteStreet' => $this->getAutoCompleteStreetConfig(),
         ];
 
         return $config;
@@ -211,6 +212,17 @@ class ConfigProvider implements ConfigProviderInterface
             'isCreateAnAccountCheckboxChecked' => $registrationSettings->getCreateAnAccountCheckbox(),
             'autoRegistration' => $registrationSettings->getIsAutoRegistration(),
             'registrationUrl' => $this->url->getRegisterUrl(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getAutoCompleteStreetConfig()
+    {
+        return [
+            'enabled' => $this->checkoutConfigurationsProvider->getAutoCompleteByStreet()
+                ->getIsEnabledAutoCompleteByStreet(),
         ];
     }
 }

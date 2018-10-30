@@ -22,7 +22,9 @@ define(
         'Magento_Customer/js/customer-data',
         'uiRegistry',
         'mage/translate',
-        'GoMage_SuperLightCheckout/js/action/save-additional-information'
+        'GoMage_SuperLightCheckout/js/action/save-additional-information',
+        'GoMage_SuperLightCheckout/js/model/address/auto-complete-register',
+        'rjsResolver'
     ],
     function (
         Component,
@@ -47,7 +49,9 @@ define(
         customerData,
         registry,
         $t,
-        saveAdditionalInformation
+        saveAdditionalInformation,
+        autoCompleteRegister,
+        rjsResolver
     ) {
         'use strict';
 
@@ -88,7 +92,14 @@ define(
                         10
                     );
                 }
+
+                rjsResolver(this.registerAutoComplete.bind(this));
+
                 return this;
+            },
+
+            registerAutoComplete: function () {
+                autoCompleteRegister.register('shipping');
             },
 
             initObservable: function () {

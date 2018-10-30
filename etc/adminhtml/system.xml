@@ -237,6 +237,23 @@
                     <backend_model>GoMage\SuperLightCheckout\Model\Config\Backend\SelectFieldConverter</backend_model>
                 </field>
             </group>
+            <group id="auto_complete_by_street" translate="label" type="text" sortOrder="800" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Google Auto Complete By Street</label>
+                <field id="enable" translate="label" type="select" sortOrder="20"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Street Autofill</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="google_api_key" translate="label" type="text" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Google API Key</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
         </section>
     </system>
 </config>
