@@ -3,6 +3,7 @@
 namespace GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor;
 
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider;
+use GoMage\SuperLightCheckout\Model\Config\Source\CheckoutFields;
 use Magento\Framework\UrlInterface;
 
 /**
@@ -44,6 +45,7 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
         $jsLayout = $this->disableChangingQtyOnCheckoutAccordingToTheConfiguration($jsLayout);
         $jsLayout = $this->addSocialNetworksAccordingToTheConfiguration($jsLayout);
         $jsLayout = $this->updateTemplateForPostcodeFieldAccordingToTheConfiguration($jsLayout);
+        $jsLayout = $this->addHelpMessagesAccordingToTheConfiguration($jsLayout);
 
         return $jsLayout;
     }
@@ -181,6 +183,68 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
             ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode']['component']
                 = 'GoMage_SuperLightCheckout/js/view/post-code';
         }
+
+        return $jsLayout;
+    }
+
+    /**
+     * @param array $jsLayout
+     *
+     * @return array
+     */
+    private function addHelpMessagesAccordingToTheConfiguration($jsLayout)
+    {
+        $helpMessages = $this->checkoutConfigurationsProvider->getHelpMessages()->getHelpMessages();
+
+        if ($helpMessages) {
+            $helpMessages = json_decode($helpMessages, true);
+
+            foreach ($helpMessages as $helpMessage) {
+                if (!is_numeric($helpMessage['field'])) {
+                    $jsLayout = $this->addToolTipMessageForFieldByAddressType(
+                        $jsLayout,
+                        'billing',
+                        $helpMessage['field'],
+                        $helpMessage['help_message']
+                    );
+                    $jsLayout = $this->addToolTipMessageForFieldByAddressType(
+                        $jsLayout,
+                        'shipping',
+                        $helpMessage['field'],
+                        $helpMessage['help_message']
+                    );
+                } else {
+                    switch ($helpMessage['field']) {
+                        case CheckoutFields::SHIPPING_METHODS:
+                            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-method-step']
+                            ['children']['shippingMethod']['tooltip']['description'] = $helpMessage['help_message'];
+                            break;
+                        case CheckoutFields::PAYMENT_METHOD:
+                            $jsLayout['components']['checkout']['children']['steps']['children']['payment-step']
+                            ['children']['payment']['children']['payments-list']
+                            ['tooltip']['description'] = $helpMessage['help_message'];
+                            break;
+                    }
+                }
+            }
+        }
+
+        return $jsLayout;
+    }
+
+    /**
+     * @param array $jsLayout
+     * @param string $addressType
+     * @param string $field
+     * @param string $message
+     *
+     * @return array
+     */
+    private function addToolTipMessageForFieldByAddressType($jsLayout, $addressType, $field, $message)
+    {
+        $jsLayout['components']['checkout']['children']['steps']['children'][$addressType . '-address-step']['children']
+        [$addressType . 'Address']['children'][$addressType . '-address-fieldset']['children']
+        [$field]['config']['tooltip']['description'] = $message;
 
         return $jsLayout;
     }

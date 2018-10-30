@@ -228,6 +228,15 @@
                     </depends>
                 </field>
             </group>
+            <group id="help_messages" translate="label" type="text" sortOrder="700" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Help messages</label>
+                <field id="message" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <frontend_model>GoMage\SuperLightCheckout\Block\Adminhtml\Config\HelpMessages\HelpMessages</frontend_model>
+                    <backend_model>GoMage\SuperLightCheckout\Model\Config\Backend\SelectFieldConverter</backend_model>
+                </field>
+            </group>
         </section>
     </system>
 </config>

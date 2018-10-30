@@ -186,3 +186,7 @@
 #checkout #social-networks {
     padding-top: 10px;
 }
+
+#checkout #checkout-step-payment .payment-group {
+    position: relative;
+}
