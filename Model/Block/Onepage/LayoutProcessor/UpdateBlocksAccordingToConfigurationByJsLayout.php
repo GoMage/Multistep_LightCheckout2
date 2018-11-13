@@ -46,6 +46,7 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
         $jsLayout = $this->addSocialNetworksAccordingToTheConfiguration($jsLayout);
         $jsLayout = $this->updateTemplateForPostcodeFieldAccordingToTheConfiguration($jsLayout);
         $jsLayout = $this->addHelpMessagesAccordingToTheConfiguration($jsLayout);
+        $jsLayout = $this->updateRequiredFields($jsLayout);
 
         return $jsLayout;
     }
@@ -245,6 +246,68 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
         $jsLayout['components']['checkout']['children']['steps']['children'][$addressType . '-address-step']['children']
         [$addressType . 'Address']['children'][$addressType . '-address-fieldset']['children']
         [$field]['config']['tooltip']['description'] = $message;
+
+        return $jsLayout;
+    }
+
+    /**
+     * @param array $jsLayout
+     *
+     * @return array
+     */
+    private function updateRequiredFields($jsLayout)
+    {
+        $isFirstNameRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldFirstName();
+        $isLastNameRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldLastName();
+        $isStreetRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldStreetAddress();
+        $isCityRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldCity();
+        $isPhoneRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldPhoneNumber();
+        $isZipRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldZipPostalCode();
+        $isCountryRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldCountry();
+        $isStateRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldStateProvince();
+        $isCompanyRequired = (bool)$this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()
+            ->getIsRequiredAddressFieldCompany();
+
+        $shippingAddressFieldset = $jsLayout['components']['checkout']['children']['steps']['children']
+        ['shipping-address-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children'];
+        $billingAddressFieldset = $jsLayout['components']['checkout']['children']['steps']['children']
+        ['billing-address-step']['children']['billingAddress']['children']['billing-address-fieldset']['children'];
+
+        $shippingAddressFieldset['firstname']['validation']['required-entry'] = $isFirstNameRequired;
+        $shippingAddressFieldset['lastname']['validation']['required-entry'] = $isLastNameRequired;
+        $shippingAddressFieldset['street']['validation']['required-entry'] = $isStreetRequired;
+        $shippingAddressFieldset['city']['validation']['required-entry'] = $isCityRequired;
+        $shippingAddressFieldset['telephone']['validation']['required-entry'] = $isPhoneRequired;
+        $shippingAddressFieldset['postcode']['validation']['required-entry'] = $isZipRequired;
+        $shippingAddressFieldset['country_id']['validation']['required-entry'] = $isCountryRequired;
+        $shippingAddressFieldset['region_id']['validation']['required-entry'] = $isStateRequired;
+        $shippingAddressFieldset['company']['validation']['required-entry'] = $isCompanyRequired;
+
+        $billingAddressFieldset['firstname']['validation']['required-entry'] = $isFirstNameRequired;
+        $billingAddressFieldset['lastname']['validation']['required-entry'] = $isLastNameRequired;
+        $billingAddressFieldset['street']['validation']['required-entry'] = $isStreetRequired;
+        $billingAddressFieldset['city']['validation']['required-entry'] = $isCityRequired;
+        $billingAddressFieldset['telephone']['validation']['required-entry'] = $isPhoneRequired;
+        $billingAddressFieldset['postcode']['validation']['required-entry'] = $isZipRequired;
+        $billingAddressFieldset['country_id']['validation']['required-entry'] = $isCountryRequired;
+        $billingAddressFieldset['region_id']['validation']['required-entry'] = $isStateRequired;
+        $billingAddressFieldset['company']['validation']['required-entry'] = $isCompanyRequired;
+
+        $jsLayout['components']['checkout']['children']['steps']['children']
+        ['shipping-address-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']
+            = $shippingAddressFieldset;
+
+        $jsLayout['components']['checkout']['children']['steps']['children']
+        ['billing-address-step']['children']['billingAddress']['children']['billing-address-fieldset']['children']
+            = $billingAddressFieldset;
 
         return $jsLayout;
     }
