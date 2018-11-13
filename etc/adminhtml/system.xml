@@ -81,7 +81,12 @@
             <group id="checkout_address_fields_sorting" translate="label" type="text" sortOrder="150" showInDefault="1"
                    showInWebsite="1" showInStore="1">
                 <label>Address fields sorting on checkout</label>
-                <field id="fields_form" type="text" sortOrder="10" showInDefault="1"
+                <field id="keep_field_names_inside" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Keep field names inside</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="fields_form" type="text" sortOrder="50" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <frontend_model>GoMage\SuperLightCheckout\Block\Adminhtml\Config\CheckoutAddressFieldsSorting</frontend_model>
                 </field>

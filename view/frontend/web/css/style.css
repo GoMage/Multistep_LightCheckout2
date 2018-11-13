@@ -190,3 +190,10 @@
 #checkout #checkout-step-payment .payment-group {
     position: relative;
 }
+
+.field.inside._required:after {
+    content:"*";
+    position:absolute;
+    color: #e02b27;
+    font-size: 1.2rem;
+}
