@@ -68,6 +68,9 @@
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Auto-Registration</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="checkout_mode">0</field>
+                    </depends>
                 </field>
                 <field id="create_an_account_checkbox" translate="label" type="select" sortOrder="40"
                        showInDefault="1" showInWebsite="0" showInStore="0">
@@ -75,6 +78,7 @@
                     <source_model>GoMage\SuperLightCheckout\Model\Config\Source\CheckboxOptions</source_model>
                     <depends>
                         <field id="auto_registration">0</field>
+                        <field id="checkout_mode">0</field>
                     </depends>
                 </field>
             </group>
