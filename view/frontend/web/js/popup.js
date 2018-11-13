@@ -23,7 +23,7 @@ define(
                     type: 'popup',
                     responsive: true,
                     clickableOverlay: false,
-                    title: $.mage.__('PopUp 222'),
+                    title: $.mage.__('GoMage Super Light Checkout'),
                     modalClass: 'popup-checkout',
                     buttons: [],
                     popupTpl: popupTpl

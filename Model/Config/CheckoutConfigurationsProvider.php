@@ -4,6 +4,7 @@ namespace GoMage\SuperLightCheckout\Model\Config;
 
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\AutofillByZipCode;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\CheckoutAddressFieldsProvider;
+use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\ColorSettingsProvider;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\GeneralConfigurationsProvider;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\AutoCompleteByStreetProvider;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\HelpMessagesProvider;
@@ -54,6 +55,11 @@ class CheckoutConfigurationsProvider
     private $autoCompleteByStreetProvider;
 
     /**
+     * @var ColorSettingsProvider
+     */
+    private $colorSettingsProvider;
+
+    /**
      * @param GeneralConfigurationsProvider $generalConfigurationsProvider
      * @param CheckoutAddressFieldsProvider $checkoutAddressFieldsProvider
      * @param RegistrationSettingsProvider $registrationSettingsProvider
@@ -62,6 +68,7 @@ class CheckoutConfigurationsProvider
      * @param AutofillByZipCode $autofillByZipCode
      * @param HelpMessagesProvider $helpMessagesProvider
      * @param AutoCompleteByStreetProvider $autoCompleteByStreetProvider
+     * @param ColorSettingsProvider $colorSettingsProvider
      */
     public function __construct(
         GeneralConfigurationsProvider $generalConfigurationsProvider,
@@ -71,7 +78,8 @@ class CheckoutConfigurationsProvider
         SocialLoginProvider $socialLoginProvider,
         AutofillByZipCode $autofillByZipCode,
         HelpMessagesProvider $helpMessagesProvider,
-        AutoCompleteByStreetProvider $autoCompleteByStreetProvider
+        AutoCompleteByStreetProvider $autoCompleteByStreetProvider,
+        ColorSettingsProvider $colorSettingsProvider
     ) {
         $this->generalConfigurationsProvider = $generalConfigurationsProvider;
         $this->checkoutAddressFieldsProvider = $checkoutAddressFieldsProvider;
@@ -81,6 +89,7 @@ class CheckoutConfigurationsProvider
         $this->autofillByZipCode = $autofillByZipCode;
         $this->helpMessagesProvider = $helpMessagesProvider;
         $this->autoCompleteByStreetProvider = $autoCompleteByStreetProvider;
+        $this->colorSettingsProvider = $colorSettingsProvider;
     }
 
     public function getGeneralConfigurations()
@@ -121,6 +130,10 @@ class CheckoutConfigurationsProvider
     public function getAutoCompleteByStreet()
     {
         return $this->autoCompleteByStreetProvider;
+    }
 
+    public function getColorSettings()
+    {
+        return $this->colorSettingsProvider;
     }
 }
