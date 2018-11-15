@@ -70,4 +70,36 @@ class ResponseData extends \Magento\Framework\DataObject implements ResponseData
     {
         return $this->setData(self::REDIRECT_URL, $url);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getQuote()
+    {
+        return $this->getData(self::QUOTE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setQuote($quoteData)
+    {
+        return $this->setData(self::QUOTE, $quoteData);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getQuoteMaskedId()
+    {
+        return $this->getData(self::QUOTE_MASKED_ID);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setQuoteMaskedId($maskedId)
+    {
+        return $this->setData(self::QUOTE_MASKED_ID, $maskedId);
+    }
 }

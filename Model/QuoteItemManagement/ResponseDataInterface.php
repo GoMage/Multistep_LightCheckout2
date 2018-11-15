@@ -8,6 +8,8 @@ interface ResponseDataInterface
     const PAYMENT_METHODS = 'payment_methods';
     const TOTALS = 'totals';
     const REDIRECT_URL = 'redirect_url';
+    const QUOTE = 'quote';
+    const QUOTE_MASKED_ID = 'quote_masked_id';
 
     /**
      * Get shipping methods.
@@ -72,4 +74,28 @@ interface ResponseDataInterface
      * @return $this
      */
     public function setRedirectUrl($url);
+
+    /**
+     * @return \Magento\Quote\Api\Data\CartInterface
+     */
+    public function getQuote();
+
+    /**
+     * @param \Magento\Quote\Api\Data\CartInterface $quoteData
+     *
+     * @return $this
+     */
+    public function setQuote($quoteData);
+
+    /**
+     * @return \GoMage\SuperLightCheckout\Model\QuoteItemManagement\QuoteMaskedIdResponseInterface
+     */
+    public function getQuoteMaskedId();
+
+    /**
+     * @param \GoMage\SuperLightCheckout\Model\QuoteItemManagement\QuoteMaskedIdResponseInterface $maskedId
+     *
+     * @return $this
+     */
+    public function setQuoteMaskedId($maskedId);
 }

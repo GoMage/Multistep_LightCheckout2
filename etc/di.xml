@@ -24,9 +24,15 @@
     <preference for="GoMage\SuperLightCheckout\Api\CheckoutAdditionalManagementInterface" type="GoMage\SuperLightCheckout\Model\CheckoutAdditionalManagement" />
     <preference for="GoMage\SuperLightCheckout\Api\GetAddressByPostCodeInterface" type="GoMage\SuperLightCheckout\Model\GetAddressByPostCode" />
     <preference for="GoMage\SuperLightCheckout\Model\GetAddressByPostCode\ResponseDataInterface" type="GoMage\SuperLightCheckout\Model\GetAddressByPostCode\ResponseData" />
+    <preference for="GoMage\SuperLightCheckout\Model\QuoteItemManagement\QuoteMaskedIdResponseInterface" type="GoMage\SuperLightCheckout\Model\QuoteItemManagement\QuoteMaskedIdResponse" />
 
     <type name="Magento\Quote\Model\Quote\Address">
         <plugin name="gomage_super_light_checkout_change_quote_address_validator"
                 type="GoMage\SuperLightCheckout\Plugin\Quote\ChangeAddressValidatorAccordingToConfiguration"/>
+    </type>
+
+    <type name="Magento\Quote\Model\QuoteRepository">
+        <plugin name="gomage_super_light_checkout_hold_exception_if_quote_id_null"
+                type="GoMage\SuperLightCheckout\Plugin\Quote\HoldExceptionIfQuoteIdNull"/>
     </type>
 </config>

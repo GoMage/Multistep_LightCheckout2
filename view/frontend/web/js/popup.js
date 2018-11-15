@@ -2,9 +2,10 @@ define(
     [
         'jquery',
         'text!GoMage_SuperLightCheckout/template/modal/modal-popup.html',
+        'GoMage_SuperLightCheckout/js/action/get-active-quote-information',
         'Magento_Ui/js/modal/modal'
     ],
-    function($, popupTpl) {
+    function($, popupTpl, getActiveQuoteInformationAction) {
         "use strict";
 
         $.widget('GoMage.Popup', {
@@ -34,6 +35,7 @@ define(
                 var modalForm = this.options.modalForm;
 
                 $(document).on('click', this.options.modalButton, function(){
+                    getActiveQuoteInformationAction();
                     $(modalForm).modal(modalOption);
                     $(modalForm).trigger('openModal');
                 });

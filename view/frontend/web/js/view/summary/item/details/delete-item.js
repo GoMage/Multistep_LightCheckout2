@@ -1,9 +1,10 @@
 define(
     [
         'uiComponent',
-        'GoMage_SuperLightCheckout/js/action/remove-quote-item'
+        'GoMage_SuperLightCheckout/js/action/remove-quote-item',
+        'Magento_Customer/js/customer-data'
     ],
-    function (Component, removeQuoteItemAction) {
+    function (Component, removeQuoteItemAction, customerData) {
         "use strict";
         return Component.extend({
             defaults: {
@@ -13,6 +14,9 @@ define(
                 var itemId = item.item_id;
 
                 removeQuoteItemAction(itemId);
+
+                customerData.invalidate('cart');
+                customerData.reload('cart', true);
             }
         });
     }

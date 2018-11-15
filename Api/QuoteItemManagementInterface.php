@@ -21,4 +21,11 @@ interface QuoteItemManagementInterface
      * @return \GoMage\SuperLightCheckout\Model\QuoteItemManagement\ResponseDataInterface
      */
     public function removeItemById($cartId, $itemId);
+
+    /**
+     * @param int|null $cartId
+     *
+     * @return \GoMage\SuperLightCheckout\Model\QuoteItemManagement\ResponseDataInterface
+     */
+    public function getActiveQuoteInformation($cartId = null);
 }

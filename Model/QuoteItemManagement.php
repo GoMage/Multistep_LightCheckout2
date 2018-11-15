@@ -3,6 +3,7 @@
 namespace GoMage\SuperLightCheckout\Model;
 
 use GoMage\SuperLightCheckout\Api\QuoteItemManagementInterface;
+use GoMage\SuperLightCheckout\Model\QuoteItemManagement\QuoteMaskedIdResponseInterface;
 use GoMage\SuperLightCheckout\Model\QuoteItemManagement\ResponseDataInterface;
 use GoMage\SuperLightCheckout\Model\QuoteItemManagement\ResponseDataInterfaceFactory;
 use GoMage\SuperLightCheckout\Model\QuoteItemManagement\ShippingMethodsProvider;
@@ -14,6 +15,8 @@ use Magento\Quote\Api\CartTotalRepositoryInterface;
 use Magento\Quote\Api\Data\TotalsItemInterface;
 use Magento\Quote\Api\PaymentMethodManagementInterface;
 use Magento\Quote\Model\Quote;
+use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Quote\Model\QuoteIdMaskFactory;
 
 class QuoteItemManagement implements QuoteItemManagementInterface
 {
@@ -53,6 +56,21 @@ class QuoteItemManagement implements QuoteItemManagementInterface
     private $checkoutConfigurationsProvider;
 
     /**
+     * @var CheckoutSession
+     */
+    private $checkoutSession;
+
+    /**
+     * @var QuoteIdMaskFactory
+     */
+    private $quoteIdMaskFactory;
+
+    /**
+     * @var QuoteMaskedIdResponseInterface
+     */
+    private $quoteMaskedIdResponse;
+
+    /**
      * @param CartRepositoryInterface $quoteRepository
      * @param ResponseDataInterfaceFactory $responseDataFactory
      * @param PaymentMethodManagementInterface $paymentMethodManagement
@@ -60,6 +78,9 @@ class QuoteItemManagement implements QuoteItemManagementInterface
      * @param UrlInterface $url
      * @param ShippingMethodsProvider $shippingMethodsProvider
      * @param Config\CheckoutConfigurationsProvider $checkoutConfigurationsProvider
+     * @param CheckoutSession $checkoutSession
+     * @param QuoteIdMaskFactory $quoteIdMaskFactory
+     * @param QuoteMaskedIdResponseInterface $quoteMaskedIdResponse
      */
     public function __construct(
         CartRepositoryInterface $quoteRepository,
@@ -68,7 +89,10 @@ class QuoteItemManagement implements QuoteItemManagementInterface
         CartTotalRepositoryInterface $cartTotalRepository,
         UrlInterface $url,
         ShippingMethodsProvider $shippingMethodsProvider,
-        Config\CheckoutConfigurationsProvider $checkoutConfigurationsProvider
+        Config\CheckoutConfigurationsProvider $checkoutConfigurationsProvider,
+        CheckoutSession $checkoutSession,
+        QuoteIdMaskFactory $quoteIdMaskFactory,
+        QuoteMaskedIdResponseInterface $quoteMaskedIdResponse
     ) {
         $this->quoteRepository = $quoteRepository;
         $this->responseDataFactory = $responseDataFactory;
@@ -77,6 +101,9 @@ class QuoteItemManagement implements QuoteItemManagementInterface
         $this->url = $url;
         $this->shippingMethodsProvider = $shippingMethodsProvider;
         $this->checkoutConfigurationsProvider = $checkoutConfigurationsProvider;
+        $this->checkoutSession = $checkoutSession;
+        $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+        $this->quoteMaskedIdResponse = $quoteMaskedIdResponse;
     }
 
     /**
@@ -154,6 +181,21 @@ class QuoteItemManagement implements QuoteItemManagementInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getActiveQuoteInformation($cartId = null)
+    {
+        if ($cartId === null) {
+            $quote = $this->checkoutSession->getQuote();
+        } else {
+            /** @var Quote $quote */
+            $quote = $this->quoteRepository->getActive($cartId);
+        }
+
+        return $this->getResponseData($quote);
+    }
+
+    /**
      * @param Quote $quote
      *
      * @return ResponseDataInterface
@@ -163,7 +205,7 @@ class QuoteItemManagement implements QuoteItemManagementInterface
         /** @var ResponseDataInterface $responseData */
         $responseData = $this->responseDataFactory->create();
 
-        if (!$quote->hasItems() || $quote->getHasError() || !$quote->validateMinimumAmount()) {
+        if ($quote->getHasError() || !$quote->validateMinimumAmount()) {
             $responseData->setRedirectUrl($this->url->getUrl('checkout/cart'));
         } else {
             if ($quote->getShippingAddress()->getCountryId()) {
@@ -171,8 +213,36 @@ class QuoteItemManagement implements QuoteItemManagementInterface
             }
             $responseData->setPaymentMethods($this->paymentMethodManagement->getList($quote->getId()));
             $responseData->setTotals($this->cartTotalsRepository->get($quote->getId()));
+            if ($this->checkoutSession->getQuote()->getId()) {
+                $responseData->setQuote($this->checkoutSession->getQuote());
+                if (!$quote->getCustomerId()) {
+                    $this->quoteMaskedIdResponse->setQuoteMaskedId($this->getQuoteMaskedId($quote)->getMaskedId());
+                    $responseData->setQuoteMaskedId($this->quoteMaskedIdResponse);
+                }
+            }
+
         }
 
         return $responseData;
+    }
+
+    /**
+     * @param $quote
+     *
+     * @return \Magento\Quote\Model\QuoteIdMask|string
+     */
+    private function getQuoteMaskedId($quote)
+    {
+        $quoteIdMask = '';
+        if (!$quote->getCustomer()->getId()) {
+            /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
+            $quoteIdMask = $this->quoteIdMaskFactory->create();
+            $quote->setId($quoteIdMask->load(
+                $this->checkoutSession->getQuote()->getId(),
+                'quote_id'
+            )->getMaskedId());
+        }
+
+        return $quoteIdMask;
     }
 }

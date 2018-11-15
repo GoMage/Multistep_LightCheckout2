@@ -18,4 +18,9 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Checkout\Helper\Data">
+        <plugin name="gomage_super_light_checkout_stop_magento_checkout"
+                type="GoMage\SuperLightCheckout\Plugin\Checkout\TurnOffMagentoCheckout"/>
+    </type>
 </config>

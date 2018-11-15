@@ -31,6 +31,21 @@
             <parameter name="cartId" force="true">%cart_id%</parameter>
         </data>
     </route>
+    <route url="/V1/superlight_checkout/guest-carts/:cartId/get-active-quote-information" method="POST">
+        <service class="GoMage\SuperLightCheckout\Api\GuestQuoteItemManagementInterface" method="getActiveQuoteInformation"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/superlight_checkout/carts/mine/get-active-quote-information" method="POST">
+        <service class="GoMage\SuperLightCheckout\Api\QuoteItemManagementInterface" method="getActiveQuoteInformation"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="false">%cart_id%</parameter>
+        </data>
+    </route>
     <route url="/V1/superlight_checkout/additional-checkout-information" method="POST">
         <service class="GoMage\SuperLightCheckout\Api\CheckoutAdditionalManagementInterface" method="saveAdditionalInformation"/>
         <resources>

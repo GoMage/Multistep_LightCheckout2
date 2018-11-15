@@ -29,8 +29,8 @@ class Link extends \Magento\Checkout\Block\Onepage\Link
 
     public function setTemplate($template)
     {
-        if ($this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()) {
-            $template = 'GoMage_SuperLightCheckout::' . $template;
+        if (!$this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()) {
+            $template = 'Magento_Checkout::' . $template;
         }
 
         return parent::setTemplate($template);

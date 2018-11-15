@@ -109,7 +109,7 @@ class ConfigProvider implements ConfigProviderInterface
     {
         $defaultActivePaymentMethod = null;
 
-        if (!$quote->getPayment()->getMethod()) {
+        if ($quote->getId() && !$quote->getPayment()->getMethod()) {
             $defaultPaymentMethod = $this->checkoutConfigurationsProvider->getGeneralConfigurations()
                 ->getDefaultPaymentMethod();
 

@@ -47,6 +47,15 @@ define(
                 };
 
                 return this.getUrl(urls, {});
+            },
+
+            getUrlForGetActiveQuoteInformation: function (quoteId) {
+                var params = (this.getCheckoutMethod() == 'guest') ? {cartId: quoteId} : {};
+                var urls = {
+                    'guest': '/superlight_checkout/guest-carts/:cartId/get-active-quote-information',
+                    'customer': '/superlight_checkout/carts/mine/get-active-quote-information'
+                };
+                return this.getUrl(urls, params);
             }
 
         }, resourceUrlManager);
