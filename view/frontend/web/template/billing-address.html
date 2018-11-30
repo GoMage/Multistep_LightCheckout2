@@ -1,6 +1,6 @@
 <div data-bind="fadeVisible: visible()">
     <div id="billing-address" class="step-content">
-        <div class="billing-address-same-as-shipping-block field choice" data-bind="visible: canUseShippingAddress()">
+        <div class="gslc-switcher billing-address-same-as-shipping-block field choice" data-bind="visible: canUseShippingAddress()">
             <input type="checkbox" name="billing-address-same-as-shipping"
                    data-bind="checked: isAddressSameAsShipping, click: useShippingAddress, attr: {id: 'billing-address-same-as-shipping-' + getCode($parent)}"/>
             <label data-bind="attr: {for: 'billing-address-same-as-shipping-' + getCode($parent)}"><span
@@ -20,8 +20,8 @@
         </fieldset>
     </div>
 
-    <div class="actions-toolbar" id="billing-address-buttons-container">
-        <div class="secondary left">
+    <div class="actions-toolbar gslc-actions-toolbar" id="billing-address-buttons-container">
+        <div class="secondary">
             <a class="action previous-step" data-bind="click: returnToPreviousStep">
                 <span data-bind="i18n: 'Return to previous step'"></span>
             </a>

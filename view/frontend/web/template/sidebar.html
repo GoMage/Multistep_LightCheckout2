@@ -1,8 +1,10 @@
-<div id="modal-header">
-    <h1 class="modal-title left" data-role="title" data-bind="text: modalTitle"></h1>
-    <button type="button" class="action-dropdown right" data-bind="click: summaryToggle" id="show-summary">
-        <span data-bind="text: itemsCount()"></span>
+<div id="modal-header" class="gslc-header">
+    <h1 class="modal-title" data-role="title">Checkout</h1> <!-- data-bind="text: modalTitle" -->
+    <button type="button" class="action-dropdown" data-bind="click: summaryToggle" id="show-summary">
+        <i class="material-icons ico-cart">shopping_cart</i>
+        <!-- <span data-bind="text: itemsCount()"></span> -->
         <span data-bind="text: getOrderTotal()"></span>
+        <i class="material-icons ico-arrow"></i>
     </button>
 </div>
 <div id="opc-sidebar" data-bind="fadeVisible: visible()">
