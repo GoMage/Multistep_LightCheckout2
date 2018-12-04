@@ -26,10 +26,10 @@
                     <table class="table-checkout-shipping-method">
                         <thead>
                             <tr class="row">
-                                <th class="col col-method" data-bind="i18n: 'Select Method'"></th>
-                                <th class="col col-price" data-bind="i18n: 'Price'"></th>
-                                <th class="col col-method" data-bind="i18n: 'Method Title'"></th>
+                                <th class="col col-method" data-bind="i18n: 'Select Method'"></th>                                
                                 <th class="col col-carrier" data-bind="i18n: 'Carrier Title'"></th>
+                                <th class="col col-method" data-bind="i18n: 'Method Title'"></th>
+                                <th class="col col-price" data-bind="i18n: 'Price'"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,41 +38,46 @@
                         <tr class="row" data-bind="click: $parent.selectShippingMethod, style: {cursor: 'pointer'}">
                             <td class="col col-method">
                                 <!-- ko ifnot: method.error_message -->
-                                <!-- ko if: $parent.rates().length == 1 -->
-                                <input class="radio"
-                                       type="radio"
-                                       data-bind="attr: {
-                                                    checked: $parent.rates().length == 1,
-                                                    'value' : method.carrier_code + '_' + method.method_code,
-                                                    'id': 's_method_' + method.method_code,
-                                                    'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code
-                                                 }" />
-                                <!-- /ko -->
-                                <!--ko ifnot: ($parent.rates().length == 1)-->
-                                <input type="radio"
-                                       data-bind="
-                                                value: method.carrier_code + '_' + method.method_code,
-                                                checked: $parent.isSelected,
-                                                attr: {
-                                                    'id': 's_method_' + method.carrier_code + '_' + method.method_code,
-                                                    'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code
-                                                },
-                                                click: $parent.selectShippingMethod"
-                                       class="radio"/>
-                                <!--/ko-->
+                                <div class="gslc-radio single">                                    
+                                    <!-- ko if: $parent.rates().length == 1 -->
+                                    <input class="radio"
+                                           type="radio"
+                                           data-bind="attr: {
+                                                        checked: $parent.rates().length == 1,
+                                                        'value' : method.carrier_code + '_' + method.method_code,
+                                                        'id': 's_method_' + method.method_code,
+                                                        'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code
+                                                     }" />
+                                    <!-- /ko -->
+                                    <!--ko ifnot: ($parent.rates().length == 1)-->
+                                    <input type="radio"
+                                           data-bind="
+                                                    value: method.carrier_code + '_' + method.method_code,
+                                                    checked: $parent.isSelected,
+                                                    attr: {
+                                                        'id': 's_method_' + method.carrier_code + '_' + method.method_code,
+                                                        'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code
+                                                    },
+                                                    click: $parent.selectShippingMethod"
+                                           class="radio"/>
+                                    <!--/ko-->
+                                    <label data-bind="attr: {'for': 's_method_' + method.method_code}"></label>
+                                </div>
                                 <!-- /ko -->
                             </td>
+                            
+                            <td class="col col-carrier"
+                                data-bind="text: method.carrier_title, attr: {'id': 'label_carrier_' + method.method_code + '_' + method.carrier_code}"></td>
+                            
+                            <td class="col col-method"
+                                data-bind="text: method.method_title, attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></td>
+                                
                             <td class="col col-price">
                                 <!-- ko foreach: $parent.getRegion('price') -->
                                 <!-- ko template: getTemplate() --><!-- /ko -->
                                 <!-- /ko -->
                             </td>
-
-                            <td class="col col-method"
-                                data-bind="text: method.method_title, attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></td>
-
-                            <td class="col col-carrier"
-                                data-bind="text: method.carrier_title, attr: {'id': 'label_carrier_' + method.method_code + '_' + method.carrier_code}"></td>
+                                
                         </tr>
 
                         <!-- ko if:  method.error_message -->

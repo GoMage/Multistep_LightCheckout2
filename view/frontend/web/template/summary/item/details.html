@@ -5,8 +5,21 @@
 
     <div class="product-item-inner">
         <div class="product-item-name-block">
-            <strong class="product-item-name" data-bind="text: $parent.name"></strong>
-            <span class="value" data-bind="text: '[' + $parent.qty + ']'"></span>
+            <div class="product-and-price">
+                <strong class="product-item-name" data-bind="text: $parent.name"></strong>
+                <!-- ko foreach: getRegion('after_name') -->
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+            </div>
+            <div class="summary-item-qty">
+                <div class="details-qty">
+                    <span class="label"><!-- ko i18n: 'Qty' --><!-- /ko --></span>
+                    <span class="value" data-bind="text: $parent.qty"></span>
+                </div>
+                <!-- ko foreach: getRegion('item_qty') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+            </div>
         </div>
         <div id="after-details">
         <!-- ko foreach: getRegion('after_details') -->
