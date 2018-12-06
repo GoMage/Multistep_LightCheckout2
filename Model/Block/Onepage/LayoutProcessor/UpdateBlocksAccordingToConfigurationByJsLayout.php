@@ -5,6 +5,9 @@ namespace GoMage\SuperLightCheckout\Model\Block\Onepage\LayoutProcessor;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider;
 use GoMage\SuperLightCheckout\Model\Config\Source\CheckoutFields;
 use Magento\Framework\UrlInterface;
+use Magento\Customer\Model\Session;
+use Magento\Newsletter\Model\Subscriber;
+use Magento\Newsletter\Model\SubscriberFactory;
 
 /**
  * Unset blocks according to the configurations.
@@ -22,15 +25,31 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
     private $urlBuilder;
 
     /**
+     * @var Session
+     */
+    private $customerSession;
+
+    /**
+     * @var SubscriberFactory
+     */
+    private $subscriberFactory;
+
+    /**
      * @param CheckoutConfigurationsProvider $checkoutConfigurationsProvider
      * @param UrlInterface $urlBuilder
+     * @param Session $customerSession
+     * @param SubscriberFactory $subscriberFactory
      */
     public function __construct(
         CheckoutConfigurationsProvider $checkoutConfigurationsProvider,
-        UrlInterface $urlBuilder
+        UrlInterface $urlBuilder,
+        Session $customerSession,
+        SubscriberFactory $subscriberFactory
     ) {
         $this->checkoutConfigurationsProvider = $checkoutConfigurationsProvider;
         $this->urlBuilder = $urlBuilder;
+        $this->customerSession = $customerSession;
+        $this->subscriberFactory = $subscriberFactory;
     }
 
     /**
@@ -47,6 +66,7 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
         $jsLayout = $this->updateTemplateForPostcodeFieldAccordingToTheConfiguration($jsLayout);
         $jsLayout = $this->addHelpMessagesAccordingToTheConfiguration($jsLayout);
         $jsLayout = $this->updateRequiredFields($jsLayout);
+        $jsLayout = $this->updateSubscribeToNewsletterAccordingToTheConfiguration($jsLayout);
 
         return $jsLayout;
     }
@@ -308,6 +328,33 @@ class UpdateBlocksAccordingToConfigurationByJsLayout
         $jsLayout['components']['checkout']['children']['steps']['children']
         ['billing-address-step']['children']['billingAddress']['children']['billing-address-fieldset']['children']
             = $billingAddressFieldset;
+
+        return $jsLayout;
+    }
+
+    /**
+     * @param array $jsLayout
+     *
+     * @return array
+     */
+    private function updateSubscribeToNewsletterAccordingToTheConfiguration($jsLayout)
+    {
+        $isEnabled = (int)$this->checkoutConfigurationsProvider->getSubscribeToNewsletter()
+            ->getIsEnabledSubscribeToNewsletter();
+        $isCustomerLogin = $this->customerSession->isLoggedIn();
+        $customerId = $this->customerSession->getCustomerId();
+        $isSubscribed = $this->subscriberFactory->create()->loadByCustomerId($customerId);
+
+        if (!$isEnabled || ($isCustomerLogin && $isSubscribed->getStatus() == Subscriber::STATUS_SUBSCRIBED)) {
+            unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']
+            ['children']['shippingAddress']['children']['customer-email']['children']['subscribeNewsletter']);
+        } elseif ($isEnabled) {
+            $isChecked = (bool)$this->checkoutConfigurationsProvider->getSubscribeToNewsletter()
+                ->getSubscribeToNewsletterIsCheckboxChecked();
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-address-step']
+            ['children']['shippingAddress']['children']['customer-email']['children']['subscribeNewsletter']
+            ['config']['checked'] = $isChecked;
+        }
 
         return $jsLayout;
     }

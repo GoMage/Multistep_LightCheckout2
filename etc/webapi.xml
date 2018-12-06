@@ -58,4 +58,10 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+    <route url="/V1/superlight_checkout/is-customer-subscribed-for-newsletter" method="POST">
+        <service class="GoMage\SuperLightCheckout\Api\IsCustomerSubscribedForNewsletterInterface" method="execute"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>

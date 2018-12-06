@@ -13,12 +13,20 @@ class CheckoutAdditionalManagement implements CheckoutAdditionalManagementInterf
     private $checkoutSession;
 
     /**
+     * @var CheckoutCustomerSubscriber
+     */
+    private $checkoutCustomerSubscriber;
+
+    /**
      * @param Session $checkoutSession
+     * @param CheckoutCustomerSubscriber $checkoutCustomerSubscriber
      */
     public function __construct(
-        Session $checkoutSession
+        Session $checkoutSession,
+        CheckoutCustomerSubscriber $checkoutCustomerSubscriber
     ) {
         $this->checkoutSession = $checkoutSession;
+        $this->checkoutCustomerSubscriber = $checkoutCustomerSubscriber;
     }
 
     /**
@@ -27,6 +35,15 @@ class CheckoutAdditionalManagement implements CheckoutAdditionalManagementInterf
     public function saveAdditionalInformation($additionInformation)
     {
         $this->checkoutSession->setAdditionalInformation($additionInformation);
+
+        if (isset($additionInformation['subscribe'])) {
+            $email = null;
+            if (isset($additionInformation['customerEmail']) && $additionInformation['customerEmail']) {
+                $email = $additionInformation['customerEmail'];
+            }
+
+            $this->checkoutCustomerSubscriber->execute($email);
+        }
 
         return true;
     }

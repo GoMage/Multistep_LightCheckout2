@@ -25,6 +25,7 @@
     <preference for="GoMage\SuperLightCheckout\Api\GetAddressByPostCodeInterface" type="GoMage\SuperLightCheckout\Model\GetAddressByPostCode" />
     <preference for="GoMage\SuperLightCheckout\Model\GetAddressByPostCode\ResponseDataInterface" type="GoMage\SuperLightCheckout\Model\GetAddressByPostCode\ResponseData" />
     <preference for="GoMage\SuperLightCheckout\Model\QuoteItemManagement\QuoteMaskedIdResponseInterface" type="GoMage\SuperLightCheckout\Model\QuoteItemManagement\QuoteMaskedIdResponse" />
+    <preference for="GoMage\SuperLightCheckout\Api\IsCustomerSubscribedForNewsletterInterface" type="GoMage\SuperLightCheckout\Model\IsCustomerSubscribedForNewsletter" />
 
     <type name="Magento\Quote\Model\Quote\Address">
         <plugin name="gomage_super_light_checkout_change_quote_address_validator"

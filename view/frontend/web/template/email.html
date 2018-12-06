@@ -67,3 +67,9 @@
     </fieldset>
 </form>
 <!-- /ko -->
+
+<div id="subscribe-newsletter" data-bind="visible: isSubscribeVisible()">
+    <!-- ko foreach: getRegion('subscribeNewsletter') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+</div>

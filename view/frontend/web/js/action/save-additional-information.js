@@ -25,11 +25,12 @@ define(
                     password : '#account-password',
                     accountCheckbox: 'input[name=create-account-checkbox]',
                     passwordForLoginForm : '.form-login #customer-email-fieldset #customer-password',
-                    deliveryDate : '#delivery-date input',
-                    deliveryTime: '#delivery-date select option:selected'
+                    customerEmail: '.form-login #customer-email-fieldset #customer-email',
+                    subscribeToNewsletter: '#subscribe-newsletter input[type=checkbox]'
                 },
                 passwordVal = $(selectors.password).val(),
                 isCheckboxChecked = $(selectors.accountCheckbox).is(":checked"),
+                isSubscribeToNewsletterCheckboxChecked = $(selectors.subscribeToNewsletter).is(":checked"),
                 payload = {
                     additionInformation: {}
                 };
@@ -38,6 +39,11 @@ define(
                 payload.additionInformation.password = passwordVal;
             } else {
                 payload.additionInformation.password = null;
+            }
+
+            if (isSubscribeToNewsletterCheckboxChecked) {
+                payload.additionInformation.subscribe = isSubscribeToNewsletterCheckboxChecked;
+                payload.additionInformation.customerEmail = $(selectors.customerEmail).val();
             }
 
             if (_.isEmpty(payload.additionInformation)) {
