@@ -11,7 +11,10 @@
 .gslc .checkout-agreement input + label:before,
 .gslc .field-tooltip .field-tooltip-action:before,
 .gslc .message.warning > :first-child:before,
-.gslc .message.notice > :first-child:before{
+.gslc .message.notice > :first-child:before,
+.gslc .discount-code.payment-option .payment-option-title .action-toggle:after,
+div.ui-datepicker .ui-datepicker-prev:before,
+div.ui-datepicker .ui-datepicker-next:before{
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
@@ -63,7 +66,7 @@
 }
 
 .gslc .action-close:before{
-    display: none;    
+    display: none;
 }
 
 .gslc .action-close:after{
@@ -175,16 +178,27 @@
     -ms-flex-pack          : center;
     -webkit-justify-content: center;
     justify-content        : center;
+    counter-reset: i;
+    font-size: 0;
+}
+
+.gslc .opc-progress-bar-item{
+    display: inline-block;
+    text-align: center;
+    width: 185px;
+    position: relative;
 }
 
 .gslc .opc-progress-bar-item:before{
+    content: "";
     border: 0;
     background: #d1d1d1;
     top: 12px;
-    border-radius: 0;
+    border-radius: 0 !important;
     height: 1px;
     position: absolute;
     width: 100%;
+    left: 0;
 }
 
 .gslc .opc-progress-bar-item._active:before{
@@ -217,12 +231,19 @@
     line-height: 1.5;
     color: #333;
     font-weight: 400;
+    display: inline-block;
+    width: 100%;
+    word-wrap: break-word;
 }
 
 .gslc .opc-progress-bar-item._active > span,
 .gslc .opc-progress-bar-item._complete > span{
     font-weight: 600;
     color: #333;
+}
+
+.gslc .opc-progress-bar-item._complete{
+    cursor: pointer;
 }
 
 .gslc .opc-progress-bar-item > span:before{
@@ -245,12 +266,15 @@
     line-height: 1.71;
     box-shadow: 0 0 0 8px #fff;
     box-sizing: border-box;
+    counter-increment: i;
+    content: counter(i);
 }
 
 .gslc .opc-progress-bar-item._active > span:after{
     content: counter(i);
     background: #0081ed;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
 }
 
 .gslc .opc-progress-bar-item._complete > span:after{
@@ -611,6 +635,7 @@
 }
 
 .gslc-checkbox label,
+.gslc .fieldset > .field.gslc-checkbox > .label,
 .gslc .checkout-agreement input + label{
     display: block;
     position: relative;
@@ -636,6 +661,10 @@
     content: "check_box";
 }
 
+.gslc-checkbox-save-address{
+    clear: both;
+}
+
 /* Radio */
 
 .gslc-radio input,
@@ -657,6 +686,7 @@
 
 .gslc .payment-method-title .label{
     cursor: pointer;
+    margin: 0;
 }
 
 .gslc-radio.single label{
@@ -678,6 +708,10 @@
     border-radius: 12px;
 }
 
+.gslc .payment-method-title .label:before{
+    top: 7px;
+}
+
 .gslc-radio input:checked + label:before,
 .gslc .payment-method-title input:checked + .label:before{
     background: #0081ed;
@@ -696,6 +730,10 @@
     border-radius: 12px;
 }
 
+.gslc .payment-method-title input:checked + .label:after{
+    top: 12px;
+}
+
 .gslc .table-checkout-shipping-method .gslc-radio label:before{
     top: 0;
 }
@@ -706,7 +744,8 @@
 
 /* Buttons */
 
-.gslc .action.primary{
+.gslc .action.primary,
+.gslc .discount-code.payment-option .actions-toolbar .primary .action{
     height: auto;
     background-color: #333;
     border-radius: 2px;
@@ -724,12 +763,14 @@
     box-shadow: none;
 }
 
-.gslc .action.primary:hover{
+.gslc .action.primary:hover,
+.gslc .discount-code.payment-option .actions-toolbar .primary .action:hover{
     background-color: #333;
     background-image: linear-gradient(to bottom, rgba(255,255,255,.2), rgba(255,255,255,.2));
 }
 
-.gslc .action.primary:active{
+.gslc .action.primary:active,
+.gslc .discount-code.payment-option .actions-toolbar .primary .action:active{
     background-color: #333;
     background-image: linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.2));
     box-shadow: none;
@@ -807,7 +848,7 @@
     margin-top: 20px;
 }
 
-.gslc .fieldset > .field:last-child{
+.gslc .fieldset > .field:not(.field-select-billing):last-child{
     margin-bottom: 0;
 }
 
@@ -887,6 +928,10 @@
     margin-left: auto;
 }
 
+.gslc-actions-toolbar div.secondary{
+    margin: 0;
+}
+
 .gslc-actions-toolbar div.secondary a.action{
     margin: 0;
     font-size: 16px;
@@ -907,6 +952,7 @@
     padding: 0;
     margin: 0;
     border: 0;
+    background: none;
 }
 
 .gslc #customer-email-fieldset:last-child > .field{
@@ -973,6 +1019,7 @@
     max-width: none;
     padding: 0;
     margin: 0;
+    background: none;
 }
 
 .gslc .create-account-checkbox + .fieldset{
@@ -985,6 +1032,10 @@
 
 .gslc .create-account-block{
     margin-bottom: 28px;
+}
+
+.gslc #shipping-address-details{
+    margin-bottom: 16px;
 }
 
 /* Billing Address
@@ -1023,6 +1074,7 @@
 
 .gslc-sidebar .items-in-cart{
     margin: 0;
+    border-bottom: 1px solid #d1d1d1;
 }
 
 .gslc-sidebar .opc-block-summary .minicart-items-wrapper{
@@ -1035,6 +1087,10 @@
     border-bottom: 1px solid #d1d1d1;
     padding: 16px;
     margin: 0;
+}
+
+.gslc-sidebar .items-in-cart .product-item-block:last-child{
+    border-bottom: 0;
 }
 
 .gslc-sidebar .items-in-cart .product-item-block:after{
@@ -1201,6 +1257,7 @@
     margin: 15px 0 0;
     font-size: 14px;
     line-height: 1.71;
+    width: 100%;
 }
 
 .gslc-sidebar .opc-block-summary .table-totals .label{
@@ -1241,6 +1298,7 @@
 .gslc-sidebar .opc-block-summary .table-totals .grand .mark strong,
 .gslc-sidebar .opc-block-summary .table-totals .grand .amount strong{
     font-weight: 600;
+    padding: 0;
 }
 
 .gslc-sidebar .opc-block-summary .table-totals tr.grand:last-child .mark,
@@ -1263,10 +1321,13 @@
 .gslc .checkout-shipping-method .methods-shipping{
     margin: 0 0 16px;
     display: block;
+    border: 0;
+    background: none;
+    padding: 0;
 }
 
 .gslc .checkout-shipping-method .step-title,
-.gslc .checkout-shipping-method > .field-tooltip{
+.gslc .checkout-shipping-method .step-title + .field-tooltip{
     display: none;
 }
 
@@ -1294,16 +1355,598 @@
     padding-right: 16px;
 }
 
+.gslc .table-checkout-shipping-method tbody td:not(:first-child){
+    width: 33%;
+}
+
 .gslc .table-checkout-shipping-method tbody .col-price{
     font-weight: 600;
     text-align: right;
 }
 
+/* Delivery Date
+-------------------------------------------------- */
+
+.gslc-delivery-date{
+    position: relative;
+    padding-top: 17px;
+    margin-top: -18px;
+    background: #fff;
+}
+
+.gslc-delivery-date .field-tooltip{
+    right: 16px;
+}
+
+.gslc .delivery-date-text{
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 1.67;
+}
+
+.gslc .delivery-date:after{
+    content: '';
+    clear: both;
+    display: block;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    font-size: 0;
+}
+
+.gslc .delivery-date-left .control{
+    position: relative;
+}
+
+.gslc .delivery-date-left ._has-datepicker ~ div.ui-datepicker-trigger{
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    margin: 0;
+}
+
+.gslc .delivery-date-left ._has-datepicker ~ div.ui-datepicker-trigger:before{
+    content: "event";
+    display: block;
+    color: #333;
+}
+
+.gslc .delivery-date-left ._has-datepicker ~ div.ui-datepicker-trigger:hover:before{
+    color: #0081ed;
+}
+
+.gslc .delivery-date .label{
+    display: block;
+}
+
+.gslc-delivery-date .delivery-date-left:last-child{
+    width: 100%;
+}
+
+/* Calendar */
+
+div.ui-datepicker{
+    box-shadow: none;
+    width: 340px;
+    border: 1px solid #d1d1d1;
+    background: #fff;
+    border-radius: 2px;
+    padding: 16px;
+    margin-top: 7px;
+}
+
+div.ui-datepicker .ui-datepicker-calendar{
+    border: 0;
+    color: #333;
+    font-size: 18px;
+    table-layout: fixed;
+}
+
+div.ui-datepicker .ui-datepicker-calendar th,
+div.ui-datepicker .ui-datepicker-calendar .ui-state-disabled,
+div.ui-datepicker .ui-datepicker-calendar td{
+    background: none;
+    border: 0;
+}
+
+div.ui-datepicker .ui-datepicker-calendar th{
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    padding: 8px 4px;
+}
+
+div.ui-datepicker .ui-datepicker-calendar td{
+    text-align: center;
+    vertical-align: middle;
+    padding: 2px;
+}
+
+div.ui-datepicker .ui-datepicker-calendar .ui-state-hover,
+div.ui-datepicker .ui-datepicker-calendar .ui-state-active{
+    background: #0081ed;
+    border-radius: 50%;
+    color: #fff;
+}
+
+div.ui-datepicker td span,
+div.ui-datepicker .ui-datepicker-calendar td a{
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    line-height: 40px;
+    padding: 0;
+}
+
+div.ui-datepicker .ui-datepicker-calendar .ui-state-disabled span{
+    color: #d1d1d1;
+}
+
+div.ui-datepicker .ui-datepicker-title{
+    font-size: 18px;
+    color: #333;
+    line-height: 24px;
+}
+
+div.ui-datepicker .ui-datepicker-title .ui-datepicker-month,
+div.ui-datepicker .ui-datepicker-title .ui-datepicker-year{
+    width: auto;
+    margin: 0;
+}
+
+div.ui-datepicker .ui-datepicker-header{
+    padding: 0 0 8px;
+}
+
+div.ui-datepicker .ui-datepicker-prev,
+div.ui-datepicker .ui-datepicker-next{
+    color: #333;
+    top: 0;
+}
+
+div.ui-datepicker .ui-datepicker-prev:hover,
+div.ui-datepicker .ui-datepicker-next:hover{
+    color: #0081ed;
+}
+
+div.ui-datepicker .ui-datepicker-prev span,
+div.ui-datepicker .ui-datepicker-next span{
+    display: none;
+}
+
+div.ui-datepicker .ui-datepicker-prev:before{
+    content: "chevron_left";
+}
+
+div.ui-datepicker .ui-datepicker-next:before{
+    content: "chevron_right";
+}
 
 /* Payment Methods
 -------------------------------------------------- */
 
 .gslc .checkout-payment-method .step-title,
-.gslc .checkout-payment-method .field-tooltip{
+.gslc .checkout-payment-method .step-title ~ .field-tooltip{
     display: none;
+}
+
+.gslc .checkout-payment-method .payment-group{
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+}
+
+.gslc .checkout-payment-method .payment-method{
+    padding: 0 16px 16px;
+}
+
+.gslc .checkout-payment-method .payment-method-title{
+    padding: 16px 16px 0;
+    margin: 0 -16px;
+}
+
+.gslc .checkout-payment-method .payment-method-content{
+    padding: 0;
+}
+
+.gslc .checkout-payment-method .payment-method + .payment-method .payment-method-title{
+    border-top: 1px solid #d1d1d1;
+}
+
+.gslc div[data-role="checkout-agreements"]{
+    margin: 0 0 16px;
+}
+
+.gslc .checkout-agreement + .checkout-agreement{
+    margin-top: 8px;
+}
+
+.gslc .checkout-agreement .action{
+    background: none;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    display: block;
+    font-size: 16px;
+    line-height: 2;
+    color: #333;
+    font-weight: 400;
+    text-align: left;
+}
+
+.gslc .checkout-agreement .action:hover{
+    text-decoration: underline;
+    color: #0081ed;
+}
+
+.gslc .checkout-agreement > .action:first-child{
+    margin-left: 40px;
+}
+
+.gslc .checkout-payment-method .payment-methods{
+    margin: 0;
+}
+
+/* Discount
+-------------------------------------------------- */
+
+.gslc .discount-code.payment-option{
+    padding: 15px 0 16px;
+    margin: 0;
+}
+
+.gslc .discount-code.payment-option .payment-option-title{
+    border: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.gslc .discount-code.payment-option .payment-option-title .action-toggle{
+    color: #0081ed;
+    vertical-align: top;
+    cursor: pointer;
+}
+
+.gslc .discount-code.payment-option .payment-option-title .action-toggle:after{
+    content: "arrow_forward";
+    margin: 0 0 0 5px;
+    color: #0081ed;
+    vertical-align: top;
+}
+
+.gslc .discount-code.payment-option .payment-option-content{
+    padding: 0;
+}
+
+.gslc .opc-wrapper .form-discount{
+    max-width: none;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.gslc .discount-code.payment-option .payment-option-inner{
+    margin: 0 8px 0 0;
+    -webkit-flex: 1 1;
+    -ms-flex    : 1 1;
+    flex        : 1 1;
+}
+
+.gslc .discount-code.payment-option .actions-toolbar .primary .action{
+    margin: 0;
+}
+
+.gslc .discount-code.payment-option._active .payment-option-title{
+    display: none;
+}
+
+.gslc .discount-applied{
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack          : justify;
+    -webkit-justify-content: space-between;
+    justify-content        : space-between;
+    -ms-flex-align     : center;
+    -webkit-align-items: center;
+    align-items        : center;
+    width: 100%;
+}
+
+.gslc .discount-applied .discount-applied-value{
+    font-size: 16px;
+    line-height: 1.5;
+    color: #0081ed;
+}
+
+.gslc .discount-applied .discount-applied-value strong{
+    font-weight: 400;
+}
+
+.gslc .discount-applied .action-cancel{
+    background: none;
+    border: 0;
+    padding: 0;
+    color: #333;
+    box-shadow: none;
+}
+
+.gslc .discount-applied .action-cancel:hover{
+    color: #0081ed;
+}
+
+.gslc .discount-applied .action-cancel .material-icons{
+    display: block;
+}
+
+/* Credit Card
+-------------------------------------------------- */
+
+.gslc .payment-method-content .fieldset{
+    margin: 16px 0 20px;
+}
+
+.gslc .checkout-payment-method .ccard .number .input-text,
+.gslc .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field .select{
+    width: 100%;
+}
+
+.gslc .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field{
+    width: calc(50% - 8px) !important;
+}
+
+.gslc .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field + .field{
+    margin-left: 16px;
+    padding: 0;
+}
+
+.gslc .checkout-payment-method .ccard > .field.cvv > .control{
+    display: block;
+    padding-right: 0;
+}
+
+/* Responsive
+-------------------------------------------------- */
+
+@media all and (min-width: 650px){
+
+    .summary-mobile-text{
+        display: none;
+    }
+
+}
+
+@media all and (max-width: 1023px){
+
+    .gslc .field-tooltip .field-tooltip-content{
+        left: auto;
+        right: -6px;
+        -webkit-transform: none;
+        -ms-transform    : none;
+        transform        : none;
+    }
+
+    .gslc .field-tooltip .field-tooltip-content:before{
+        left: auto;
+        right: 14px;
+        -webkit-transform: rotate(-45deg);
+        -ms-transform    : rotate(-45deg);
+        transform        : rotate(-45deg);
+    }
+
+}
+
+@media all and (max-width: 800px){
+
+    .gslc .action-close{
+        top: -56px;
+        left: auto;
+        right: -16px;
+    }
+
+}
+
+@media all and (max-width: 649px){
+
+    .gslc{
+        background: #fff;
+    }
+
+    .gslc .modal-inner-wrap{
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .gslc .action-close{
+        right: 0;
+        top: 0;
+    }
+
+    .gslc .action-close:not(:hover){
+        color: #333;
+    }
+
+    .gslc-header{
+        display: block;
+        padding: 0;
+        margin: 0;
+    }
+
+    .gslc .modal-title{
+        padding: 16px;
+        line-height: 1.33;
+    }
+
+    .gslc-header button.action-dropdown{
+        width: 100%;
+        border-radius: 0;
+        border-bottom: 0;
+        border-left: 0;
+        border-right: 0;
+        padding: 15px 16px 16px;
+    }
+
+    .gslc-header button.action-dropdown .ico-cart{
+        display: none;
+    }
+
+    .gslc-header button.action-dropdown span{
+        font-weight: 600;
+    }
+
+    .summary-mobile-text{
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.5;
+        color: #333;
+        margin-right: auto;
+    }
+
+    .gslc-sidebar{
+        position: static;
+        box-shadow: none;
+        width: auto;
+        border-radius: 0;
+        border-bottom: 1px solid #d1d1d1;
+    }
+    
+    .gslc-sidebar .opc-block-summary .minicart-items-wrapper{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    
+    .gslc-sidebar .opc-block-summary .table-totals{
+        margin-left: 16px;
+        margin-right: 16px;
+        width: calc(100% - 32px);
+    }
+    
+    .gslc-sidebar .items-in-cart{
+        border-bottom: 0;
+    }
+    
+    .gslc-sidebar .items-in-cart:after{
+        content: "";
+        display: block;
+        height: 1px;
+        overflow: hidden;
+        background: #d1d1d1;
+        margin: 0 16px;
+    }
+    
+    .gslc-sidebar .items-in-cart .product-item-block{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    .gslc-sidebar .opc-block-summary .table-totals tbody .mark,
+    .gslc-sidebar .opc-block-summary .table-totals tfoot .mark,
+    .gslc-sidebar .opc-block-summary .table-totals .grand .mark{
+        padding-left: 0;
+    }
+    
+    .gslc-sidebar .opc-block-summary .table-totals tbody .amount,
+    .gslc-sidebar .opc-block-summary .table-totals tfoot .amount,
+    .gslc-sidebar .opc-block-summary .table-totals .grand .amount{
+        padding-right: 0;
+    }
+
+    .gslc .opc-progress-bar{
+        margin: 0 0 16px;
+        padding: 15px 16px 16px;
+    }
+
+    .gslc-actions-toolbar{
+        padding-left: 16px;
+        padding-right: 16px;
+        margin-left: -16px;
+        margin-right: -16px;
+        margin-bottom: 0;
+        -webkit-flex-direction: column;
+        -ms-flex-direction    : column;
+        flex-direction        : column;
+    }
+
+    .gslc-text,
+    .gslc .opc-wrapper{
+        padding: 0 16px;
+        margin: 0 0 16px;
+    }
+
+    .gslc .address-half, .gslc .half{
+        width: 100%;
+    }
+
+    .gslc-actions-toolbar div.primary{
+        -ms-flex-order: -10;
+        -webkit-order : -10;
+        order         : -10;
+        margin: 0;
+        width: 100%;
+    }
+
+    .gslc-actions-toolbar div.primary .action.primary{
+        width: 100%;
+    }
+
+    .gslc-actions-toolbar div.secondary{
+        margin-top: 16px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .gslc-sidebar .minicart-items .product-and-price{
+        display: block;
+    }
+
+    .gslc-sidebar .minicart-items .subtotal{
+        display: block;
+        margin: 0 0 4px;
+    }
+
+    .gslc-sidebar .minicart-items .remove-item{
+        margin: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .gslc-sidebar .minicart-items .product-item-name{
+        padding-right: 30px;
+    }
+
+    .gslc .checkout-container > .messages{
+        margin: 0 16px 16px;
+    }
+
+    .gslc .opc-wrapper .form-discount{
+        display: block;
+    }
+
+    .gslc .discount-code.payment-option .payment-option-inner{
+        margin: 0 0 8px;
+    }
+
+    .gslc .opc-progress-bar-item > span{
+        font-size: 12px;
+        line-height: 1.67;
+    }
+
+    .gslc .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field{
+        width: 100% !important;
+    }
+
+    .gslc .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field + .field{
+        margin: 20px 0 0;
+    }
+    
+    .gslc .social-networks-text{
+        margin-right: auto;
+    }
+
 }

@@ -2,6 +2,7 @@
     <h1 class="modal-title" data-role="title">Checkout</h1> <!-- data-bind="text: modalTitle" -->
     <button type="button" class="action-dropdown" data-bind="click: summaryToggle" id="show-summary">
         <i class="material-icons ico-cart">shopping_cart</i>
+        <div class="summary-mobile-text" data-bind="i18n: 'Order Summary'"></div>
         <!-- <span data-bind="text: itemsCount()"></span> -->
         <span data-bind="text: getOrderTotal()"></span>
         <i class="material-icons ico-arrow"></i>

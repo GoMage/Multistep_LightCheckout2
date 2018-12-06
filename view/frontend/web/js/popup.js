@@ -23,7 +23,6 @@ define(
                 /** * Modal options */
                 return {
                     type: 'popup',
-                    responsive: true,
                     clickableOverlay: false,
                     title: $.mage.__('Checkout'),
                     modalClass: 'gslc popup-checkout',
