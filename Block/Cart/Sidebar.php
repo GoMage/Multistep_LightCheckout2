@@ -1,11 +1,11 @@
 <?php
 
-namespace GoMage\SuperLightCheckout\Block\Onepage;
+namespace GoMage\SuperLightCheckout\Block\Cart;
 
-use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider;
 use GoMage\Core\Helper\Data;
+use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider;
 
-class Link extends \Magento\Checkout\Block\Onepage\Link
+class Sidebar extends \Magento\Checkout\Block\Cart\Sidebar
 {
     /**
      * @var CheckoutConfigurationsProvider
@@ -19,26 +19,33 @@ class Link extends \Magento\Checkout\Block\Onepage\Link
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Checkout\Helper\Data $checkoutHelper
+     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Customer\CustomerData\JsLayoutDataProviderPoolInterface $jsLayoutDataProvider
      * @param CheckoutConfigurationsProvider $checkoutConfigurationsProvider
      * @param Data $helper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Checkout\Helper\Data $checkoutHelper,
+        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Customer\CustomerData\JsLayoutDataProviderPoolInterface $jsLayoutDataProvider,
         CheckoutConfigurationsProvider $checkoutConfigurationsProvider,
         Data $helper,
         array $data = []
     ) {
-        parent::__construct($context, $checkoutSession, $checkoutHelper, $data);
+        parent::__construct($context, $customerSession, $checkoutSession, $imageHelper, $jsLayoutDataProvider, $data);
 
         $this->checkoutConfigurationsProvider = $checkoutConfigurationsProvider;
         $this->helper = $helper;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setTemplate($template)
     {
         if (!$this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()
@@ -48,5 +55,20 @@ class Link extends \Magento\Checkout\Block\Onepage\Link
         }
 
         return parent::setTemplate($template);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJsLayout()
+    {
+        if ($this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()
+            && $this->helper->isA(CheckoutConfigurationsProvider::MODULE_NAME)
+        ) {
+            $this->jsLayout['components']['minicart_content']['config']['template']
+                = 'GoMage_SuperLightCheckout/minicart/content';
+        }
+
+        return json_encode($this->jsLayout);
     }
 }

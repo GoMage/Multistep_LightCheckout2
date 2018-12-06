@@ -32,7 +32,8 @@ class AddJsForGoogleAutoCompleteStreet extends \Magento\Framework\View\Element\T
      */
     public function isEnableStreetAutoComplete()
     {
-        return $this->checkoutConfigurationsProvider->getAutoCompleteByStreet()->getIsEnabledAutoCompleteByStreet();
+        return $this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()
+            && $this->checkoutConfigurationsProvider->getAutoCompleteByStreet()->getIsEnabledAutoCompleteByStreet();
     }
 
     /**
@@ -40,6 +41,7 @@ class AddJsForGoogleAutoCompleteStreet extends \Magento\Framework\View\Element\T
      */
     public function getGoogleApiKey()
     {
-        return $this->checkoutConfigurationsProvider->getAutoCompleteByStreet()->getAutoCompleteByStreetGoogleApiKey();
+        return $this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()
+            && $this->checkoutConfigurationsProvider->getAutoCompleteByStreet()->getAutoCompleteByStreetGoogleApiKey();
     }
 }
