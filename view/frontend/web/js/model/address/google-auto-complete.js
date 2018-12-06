@@ -158,18 +158,19 @@ define([
             var self = this;
             $.each(this.presentAddressFields, function (index, element) {
                 if (element.visible() && fieldsToUpdate.hasOwnProperty(index)) {
-                    if (index === 'region_id') {
-                        $.each(element.options(), function (key, option) {
-                            if (fieldsToUpdate[index] == option.label) {
-                                element.value(option.value);
-                                return false;
-                            }
-                        });
-                    } else {
-                        if (index === 'street') {
-                            self.inputSelector.value = fieldsToUpdate[index];
+                    if (fieldsToUpdate[index]) {
+                        if (index == 'region_id') {
+                            $.each(element.options(), function (key, option) {
+                                if (fieldsToUpdate[index] == option.label) {
+                                    element.value(option.value);
+                                    return false;
+                                }
+                            });
                         } else {
                             element.value(fieldsToUpdate[index]);
+                            if (index == 'street') {
+                                self.inputSelector.value = fieldsToUpdate[index];
+                            }
                         }
                     }
                 }
