@@ -15,6 +15,8 @@ use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider\TermsA
 
 class CheckoutConfigurationsProvider
 {
+    const MODULE_NAME = 'GoMage_SuperLightCheckout';
+
     /**
      * @var GeneralConfigurationsProvider
      */

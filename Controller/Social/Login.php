@@ -2,6 +2,8 @@
 
 namespace GoMage\SuperLightCheckout\Controller\Social;
 
+use GoMage\Core\Helper\Data;
+use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider;
 use GoMage\SuperLightCheckout\Model\SocialManagement;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Action;
@@ -26,22 +28,30 @@ class Login extends Action
     private $socialManagement;
 
     /**
+     * @var Data
+     */
+    private $helper;
+
+    /**
      * @param Context $context
      * @param Session $session
      * @param RawFactory $rawFactory
      * @param SocialManagement $socialManagement
+     * @param Data $helper
      */
     public function __construct(
         Context $context,
         Session $session,
         RawFactory $rawFactory,
-        SocialManagement $socialManagement
+        SocialManagement $socialManagement,
+        Data $helper
     ) {
         parent::__construct($context);
 
         $this->session = $session;
         $this->resultRawFactory = $rawFactory;
         $this->socialManagement = $socialManagement;
+        $this->helper = $helper;
     }
 
     /**
@@ -54,7 +64,7 @@ class Login extends Action
         }
 
         $type = $this->getRequest()->getParam('type', null);
-        if ($type === null) {
+        if ($type === null || !$this->helper->isA(CheckoutConfigurationsProvider::MODULE_NAME)) {
             $this->_forward('noroute');
 
             return $this;

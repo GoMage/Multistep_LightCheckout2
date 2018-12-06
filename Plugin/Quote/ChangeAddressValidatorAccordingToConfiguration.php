@@ -2,6 +2,7 @@
 
 namespace GoMage\SuperLightCheckout\Plugin\Quote;
 
+use GoMage\Core\Helper\Data as CoreData;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider;
 use Magento\Directory\Helper\Data;
 
@@ -18,21 +19,42 @@ class ChangeAddressValidatorAccordingToConfiguration
     private $directoryData;
 
     /**
+     * @var CoreData
+     */
+    private $helper;
+
+    /**
      * @param CheckoutConfigurationsProvider $checkoutConfigurationsProvider
      * @param Data $directoryData
+     * @param CoreData $helper
      */
     public function __construct(
         CheckoutConfigurationsProvider $checkoutConfigurationsProvider,
-        Data $directoryData
+        Data $directoryData,
+        CoreData $helper
     ) {
         $this->checkoutConfigurationsProvider = $checkoutConfigurationsProvider;
         $this->directoryData = $directoryData;
+        $this->helper = $helper;
     }
 
     public function aroundValidate(
         \Magento\Quote\Model\Quote\Address $subject,
         \Closure $proceed
     ) {
+        if ($this->helper->isA(CheckoutConfigurationsProvider::MODULE_NAME)) {
+            $errors = $this->validate($subject);
+        } else {
+            $errors = $proceed();
+        }
+        return $errors;
+    }
+
+    /**
+     * @return array|bool
+     */
+    private function validate($subject)
+    {
         $errors = [];
         $isFirstNameRequired = (bool)
         $this->checkoutConfigurationsProvider->getCheckoutAddressFieldsRequired()->getIsRequiredAddressFieldFirstName();

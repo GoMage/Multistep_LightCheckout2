@@ -2,6 +2,7 @@
 
 namespace GoMage\SuperLightCheckout\Plugin\Checkout;
 
+use GoMage\Core\Helper\Data;
 use GoMage\SuperLightCheckout\Model\Config\CheckoutConfigurationsProvider;
 
 class TurnOffMagentoCheckout
@@ -12,12 +13,20 @@ class TurnOffMagentoCheckout
     private $checkoutConfigurationsProvider;
 
     /**
+     * @var Data
+     */
+    private $helper;
+
+    /**
      * @param CheckoutConfigurationsProvider $checkoutConfigurationsProvider
+     * @param Data $helper
      */
     public function __construct(
-        CheckoutConfigurationsProvider $checkoutConfigurationsProvider
+        CheckoutConfigurationsProvider $checkoutConfigurationsProvider,
+        Data $helper
     ) {
         $this->checkoutConfigurationsProvider = $checkoutConfigurationsProvider;
+        $this->helper = $helper;
     }
 
     /**
@@ -30,7 +39,9 @@ class TurnOffMagentoCheckout
         \Magento\Checkout\Helper\Data $subject,
         $result
     ) {
-        if ($this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()) {
+        if ($this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()
+            && $this->helper->isA(CheckoutConfigurationsProvider::MODULE_NAME)
+        ) {
             $result = false;
         }
 

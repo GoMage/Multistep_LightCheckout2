@@ -7,22 +7,9 @@
     </head>
     <body>
         <referenceContainer name="header-wrapper">
-            <referenceBlock  name="minicart" template="GoMage_SuperLightCheckout::cart/minicart.phtml">
-                <arguments>
-                    <argument name="jsLayout" xsi:type="array">
-                        <item name="types" xsi:type="array"/>
-                        <item name="components" xsi:type="array">
-                            <item name="minicart_content" xsi:type="array">
-                                <item name="config" xsi:type="array">
-                                    <item name="template" xsi:type="string">GoMage_SuperLightCheckout/minicart/content</item>
-                                </item>
-                            </item>
-                        </item>
-                    </argument>
-                </arguments>
+            <referenceBlock name="minicart"  class="GoMage\SuperLightCheckout\Block\Cart\Sidebar">
                 <block class="GoMage\SuperLightCheckout\Block\Onepage" name="cart.checkout.root"
-                       template="Magento_Checkout::onepage.phtml"
-                       cacheable="false">
+                       template="Magento_Checkout::onepage.phtml" cacheable="false">
                     <arguments>
                         <argument name="jsLayout" xsi:type="array">
                             <item name="components" xsi:type="array">

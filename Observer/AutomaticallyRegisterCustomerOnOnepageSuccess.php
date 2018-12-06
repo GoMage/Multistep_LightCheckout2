@@ -70,7 +70,8 @@ class AutomaticallyRegisterCustomerOnOnepageSuccess implements ObserverInterface
     {
         $order = $this->checkoutSession->getLastRealOrder();
         $orderId = $observer->getEvent()->getOrderIds()[0];
-        if ($this->checkoutConfigurationsProvider->getRegistrationSettings()->getIsAutoRegistration()
+        if ($this->checkoutConfigurationsProvider->getGeneralConfigurations()->isEnabledSuperLightCheckout()
+            && $this->checkoutConfigurationsProvider->getRegistrationSettings()->getIsAutoRegistration()
             && $order
             && $order->getId() == $orderId
             && !$order->getCustomerId()
