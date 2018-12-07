@@ -3,7 +3,8 @@ define(
         'jquery',
         'text!GoMage_SuperLightCheckout/template/modal/modal-popup.html',
         'GoMage_SuperLightCheckout/js/action/get-active-quote-information',
-        'Magento_Ui/js/modal/modal'
+        'Magento_Ui/js/modal/modal',
+        'mage/translate'
     ],
     function($, popupTpl, getActiveQuoteInformationAction) {
         "use strict";
@@ -22,10 +23,9 @@ define(
                 /** * Modal options */
                 return {
                     type: 'popup',
-                    responsive: true,
                     clickableOverlay: false,
-                    title: $.mage.__('GoMage Super Light Checkout'),
-                    modalClass: 'popup-checkout',
+                    title: $.mage.__('Checkout'),
+                    modalClass: 'gslc popup-checkout',
                     buttons: [],
                     popupTpl: popupTpl
                 };

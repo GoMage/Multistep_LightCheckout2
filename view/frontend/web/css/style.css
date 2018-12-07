@@ -105,10 +105,10 @@
     display: inline-flex;
 }
 
- #checkout-popup #checkout #opc-sidebar .items-in-cart .product-item-details .value{
-     float: right;
-     opacity: 0.5;
- }
+#checkout-popup #checkout #opc-sidebar .items-in-cart .product-item-details .value{
+    float: right;
+    opacity: 0.5;
+}
 
 #checkout-popup #checkout #opc-sidebar .items-in-cart  .minicart-items-wrapper {
     padding: 0;

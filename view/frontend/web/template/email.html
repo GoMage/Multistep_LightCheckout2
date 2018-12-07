@@ -29,8 +29,8 @@
         </div>
 
         <!--Hidden fields -->
-        <fieldset class="fieldset hidden-fields" data-bind="fadeVisible: isPasswordVisible">
-            <div class="field">
+        <fieldset class="fieldset fieldset-password hidden-fields" data-bind="fadeVisible: isPasswordVisible">
+            <div class="field field-with-remind">
                 <label class="label" for="customer-password">
                     <span data-bind="i18n: 'Password'"></span>
                 </label>
@@ -42,6 +42,11 @@
                            id="customer-password"
                            data-validate="{required:true}" autocomplete="off"/>
                     <span class="note" data-bind="i18n: 'You already have an account with us. Sign in or continue as guest.'"></span>
+                    
+                    <a class="action remind" data-bind="attr: { href: forgotPasswordUrl }">
+                        <span data-bind="i18n: 'Forgot?'"></span>
+                    </a>
+                    
                 </div>
 
             </div>
@@ -52,11 +57,6 @@
                 <input name="context" type="hidden" value="checkout" />
                 <div class="primary">
                     <button type="submit" class="action login primary" data-action="checkout-method-login"><span data-bind="i18n: 'Login'"></span></button>
-                </div>
-                <div class="secondary">
-                    <a class="action remind" data-bind="attr: { href: forgotPasswordUrl }">
-                        <span data-bind="i18n: 'Forgot Your Password?'"></span>
-                    </a>
                 </div>
             </div>
         </fieldset>

@@ -2,7 +2,8 @@
 
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="GoMage_SuperLightCheckout::css/style.css"/>
+        <link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/icon?family=Material+Icons" src_type="url" />
+        <css src="GoMage_SuperLightCheckout::css/superlightcheckout.css"/>
     </head>
     <body>
         <referenceContainer name="header-wrapper">
@@ -443,7 +444,7 @@
                                                                         </item>
                                                                         <item name="subtotal" xsi:type="array">
                                                                             <item name="component" xsi:type="string">Magento_Checkout/js/view/summary/item/details/subtotal</item>
-                                                                            <item name="displayArea" xsi:type="string">after_details</item>
+                                                                            <item name="displayArea" xsi:type="string">after_name</item>
                                                                         </item>
                                                                         <item name="increase_item_qty" xsi:type="array">
                                                                             <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/summary/item/details/increase-item-qty</item>
@@ -451,7 +452,7 @@
                                                                         </item>
                                                                         <item name="delete_item" xsi:type="array">
                                                                             <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/summary/item/details/delete-item</item>
-                                                                            <item name="displayArea" xsi:type="string">after_details</item>
+                                                                            <item name="displayArea" xsi:type="string">after_name</item>
                                                                         </item>
                                                                     </item>
                                                                 </item>

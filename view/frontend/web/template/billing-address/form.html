@@ -4,17 +4,17 @@
     <!--/ko-->
     <form id="billing-address-form" data-hasrequired="* Required Fields">
         <fieldset id="billing-new-address-form" class="fieldset address">
+            <!-- ko if: (isCustomerLoggedIn && customerHasAddresses) -->
+            <div class="choice field gslc-checkbox gslc-checkbox-save-address" data-bind="visible: isAddressNew && addressOptions.length !== 1">
+                <input type="checkbox" class="checkbox" id="billing-save-in-address-book" data-bind="checked: saveInAddressBook" />
+                <label class="label" for="billing-save-in-address-book">
+                    <span data-bind="i18n: 'Save New Address to Address Book'"></span>
+                </label>
+            </div>
+            <!-- /ko -->        
             <!-- ko foreach: getRegion('additional-fieldsets') -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
-            <!-- ko if: (isCustomerLoggedIn && customerHasAddresses) -->
-            <div class="choice field" data-bind="visible: isAddressNew && addressOptions.length !== 1">
-                <input type="checkbox" class="checkbox" id="billing-save-in-address-book" data-bind="checked: saveInAddressBook" />
-                <label class="label" for="billing-save-in-address-book">
-                    <span data-bind="i18n: 'Save in address book'"></span>
-                </label>
-            </div>
-            <!-- /ko -->
         </fieldset>
     </form>
 </div>
