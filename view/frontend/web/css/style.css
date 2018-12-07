@@ -197,3 +197,7 @@
     color: #e02b27;
     font-size: 1.2rem;
 }
+
+.payment-method-content .actions-toolbar{
+    display: none
+}

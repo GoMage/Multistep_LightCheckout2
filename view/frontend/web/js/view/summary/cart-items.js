@@ -9,6 +9,8 @@ define([
     'use strict';
 
     return Component.extend({
+        productClasses: 'product-item',
+        
         /**
          *
          * @inheritDoc

@@ -3,7 +3,7 @@
         <div class="minicart-items-wrapper overflowed">
             <ol class="minicart-items">
                 <!-- ko foreach: items() -->
-                <li class="product-item-block">
+                <li data-bind="css: $parent.productClasses">
                     <div class="product">
                         <!-- ko foreach: $parent.elems() -->
                         <!-- ko template: getTemplate() --><!-- /ko -->

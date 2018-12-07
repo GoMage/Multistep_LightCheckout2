@@ -98,18 +98,18 @@
                                                                             <item name="template" xsi:type="string">GoMage_SuperLightCheckout/social-networks</item>
                                                                             <item name="displayArea" xsi:type="string">social-networks</item>
                                                                             <item name="children" xsi:type="array">
-                                                                                <item name="facebook" xsi:type="array">
-                                                                                    <item name="component" xsi:type="string">uiComponent</item>
-                                                                                    <item name="template" xsi:type="string">GoMage_SuperLightCheckout/social-networks/social-network</item>
-                                                                                    <item name="config" xsi:type="array">
-                                                                                        <item name="additionalClasses" xsi:type="string">facebook-logo</item>
-                                                                                    </item>
-                                                                                </item>
                                                                                 <item name="google" xsi:type="array">
                                                                                     <item name="component" xsi:type="string">uiComponent</item>
                                                                                     <item name="template" xsi:type="string">GoMage_SuperLightCheckout/social-networks/social-network</item>
                                                                                     <item name="config" xsi:type="array">
                                                                                         <item name="additionalClasses" xsi:type="string">google-logo</item>
+                                                                                    </item>
+                                                                                </item>
+                                                                                <item name="facebook" xsi:type="array">
+                                                                                    <item name="component" xsi:type="string">uiComponent</item>
+                                                                                    <item name="template" xsi:type="string">GoMage_SuperLightCheckout/social-networks/social-network</item>
+                                                                                    <item name="config" xsi:type="array">
+                                                                                        <item name="additionalClasses" xsi:type="string">facebook-logo</item>
                                                                                     </item>
                                                                                 </item>
                                                                                 <item name="twitter" xsi:type="array">
@@ -356,7 +356,7 @@
                                                                     </item>
                                                                 </item>
                                                                 <item name="payments-list" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Magento_Checkout/js/view/payment/list</item>
+                                                                    <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/payment/list</item>
                                                                     <item name="template" xsi:type="string">GoMage_SuperLightCheckout/payment-methods/list</item>
                                                                     <item name="displayArea" xsi:type="string">payment-methods-list</item>
                                                                     <item name="config" xsi:type="array">
@@ -382,7 +382,17 @@
                                                                     <item name="component" xsi:type="string">uiComponent</item>
                                                                     <item name="displayArea" xsi:type="string">afterMethods</item>
                                                                     <item name="children" xsi:type="array">
-                                                                        <!-- merge additional data after payment methods here -->
+                                                                        <item name="discount" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">Magento_SalesRule/js/view/payment/discount</item>
+                                                                            <item name="template" xsi:type="string">GoMage_SuperLightCheckout/payment/discount</item>
+                                                                            <item name="children" xsi:type="array">
+                                                                                <item name="errors" xsi:type="array">
+                                                                                    <item name="sortOrder" xsi:type="string">0</item>
+                                                                                    <item name="component" xsi:type="string">Magento_SalesRule/js/view/payment/discount-messages</item>
+                                                                                    <item name="displayArea" xsi:type="string">messages</item>
+                                                                                </item>
+                                                                            </item>
+                                                                        </item>
                                                                     </item>
                                                                 </item>
                                                                 <item name="placeOrderButton" xsi:type="array">
@@ -429,7 +439,7 @@
                                                                     <item name="children" xsi:type="array">
                                                                         <item name="decrease_item_qty" xsi:type="array">
                                                                             <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/summary/item/details/decrease-item-qty</item>
-                                                                            <item name="displayArea" xsi:type="string">after_details</item>
+                                                                            <item name="displayArea" xsi:type="string">item_qty</item>
                                                                         </item>
                                                                         <item name="subtotal" xsi:type="array">
                                                                             <item name="component" xsi:type="string">Magento_Checkout/js/view/summary/item/details/subtotal</item>
@@ -437,7 +447,7 @@
                                                                         </item>
                                                                         <item name="increase_item_qty" xsi:type="array">
                                                                             <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/summary/item/details/increase-item-qty</item>
-                                                                            <item name="displayArea" xsi:type="string">after_details</item>
+                                                                            <item name="displayArea" xsi:type="string">item_qty</item>
                                                                         </item>
                                                                         <item name="delete_item" xsi:type="array">
                                                                             <item name="component" xsi:type="string">GoMage_SuperLightCheckout/js/view/summary/item/details/delete-item</item>
