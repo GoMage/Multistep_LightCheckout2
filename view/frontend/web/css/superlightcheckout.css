@@ -661,10 +661,6 @@ div.ui-datepicker .ui-datepicker-next:before{
     content: "check_box";
 }
 
-.gslc-checkbox-save-address{
-    clear: both;
-}
-
 /* Radio */
 
 .gslc-radio input,
@@ -852,6 +848,15 @@ div.ui-datepicker .ui-datepicker-next:before{
     margin-bottom: 0;
 }
 
+.gslc .fieldset .field.gslc-checkbox-save-address{
+    clear: both;
+    margin-bottom: 16px;
+}
+
+.gslc .fieldset .field.gslc-checkbox-save-address .label{
+    margin-bottom: 0;
+}
+
 .gslc .address-half,
 .gslc .half{
     width: calc(50% - 8px);
@@ -874,7 +879,7 @@ div.ui-datepicker .ui-datepicker-next:before{
 .gslc div.mage-error[generated],
 .gslc .field-error{
     font-size: 12px;
-    line-height: 1.67;
+    line-height: 1.33;
     color: #f4531c;
     margin-top: 4px;
 }
@@ -1814,22 +1819,22 @@ div.ui-datepicker .ui-datepicker-next:before{
         border-radius: 0;
         border-bottom: 1px solid #d1d1d1;
     }
-    
+
     .gslc-sidebar .opc-block-summary .minicart-items-wrapper{
         padding-left: 16px;
         padding-right: 16px;
     }
-    
+
     .gslc-sidebar .opc-block-summary .table-totals{
         margin-left: 16px;
         margin-right: 16px;
         width: calc(100% - 32px);
     }
-    
+
     .gslc-sidebar .items-in-cart{
         border-bottom: 0;
     }
-    
+
     .gslc-sidebar .items-in-cart:after{
         content: "";
         display: block;
@@ -1838,18 +1843,18 @@ div.ui-datepicker .ui-datepicker-next:before{
         background: #d1d1d1;
         margin: 0 16px;
     }
-    
+
     .gslc-sidebar .items-in-cart .product-item-block{
         padding-left: 0;
         padding-right: 0;
     }
-    
+
     .gslc-sidebar .opc-block-summary .table-totals tbody .mark,
     .gslc-sidebar .opc-block-summary .table-totals tfoot .mark,
     .gslc-sidebar .opc-block-summary .table-totals .grand .mark{
         padding-left: 0;
     }
-    
+
     .gslc-sidebar .opc-block-summary .table-totals tbody .amount,
     .gslc-sidebar .opc-block-summary .table-totals tfoot .amount,
     .gslc-sidebar .opc-block-summary .table-totals .grand .amount{
@@ -1944,7 +1949,7 @@ div.ui-datepicker .ui-datepicker-next:before{
     .gslc .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field + .field{
         margin: 20px 0 0;
     }
-    
+
     .gslc .social-networks-text{
         margin-right: auto;
     }
